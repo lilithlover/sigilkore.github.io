@@ -217,6 +217,7 @@ options = {
   "outerHeight": 41
 }
 magicMouse(options);
+  
 </script>
 <script>
   var audio = document.getElementById("audio");
@@ -241,7 +242,7 @@ volume.removeEventListener('change', volumeEvent);
 volume.addEventListener('change', volumeEvent);
 
 var domain = window.location.hostname;
-if (domain !== "extort.wiki") {
+if (domain !== "sigilkore.lol") {
   var volumeElement = document.getElementById("volume");
   volumeElement.parentNode.removeChild(volumeElement);
 }
