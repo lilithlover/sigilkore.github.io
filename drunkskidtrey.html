@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ctrlswag</title>
+    <title>Ctrlswag - Enhanced</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet">
     <link rel="icon" href="https://cdn.lewd.host/Zz72bobb.jpg">
     <script src="https://kit.fontawesome.com/cf16def632.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
             --primary-color: #e6e6e6;
@@ -42,6 +43,16 @@
             overflow: hidden;
             position: relative;
             line-height: 1.6;
+        }
+
+        #threejs-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            filter: blur(5px) brightness(0.7); /* Added blur and darken effect */
         }
 
         .noise-background {
@@ -94,10 +105,59 @@
             height: 120px;
             margin: 0 auto 1rem;
             border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid rgba(80, 80, 80, 0.3);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            overflow: visible;
             transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .pfp-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05); /* Reduced intensity */
+            box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.15); /* Reduced intensity */
+            animation: pulseGlow 2s infinite alternate;
+            z-index: -1;
+            transition: all 0.5s ease;
+        }
+
+        .fire-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: rgba(255, 50, 0, 0.1);
+            box-shadow: 0 0 15px 8px rgba(255, 50, 0, 0.4);
+            animation: pulseFire 2s infinite alternate;
+            z-index: -1;
+            transition: all 0.5s ease;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.1);
+                opacity: 0.7;
+            }
+            100% {
+                box-shadow: 0 0 15px 7px rgba(255, 255, 255, 0.2);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulseFire {
+            0% {
+                box-shadow: 0 0 10px 5px rgba(255, 50, 0, 0.3);
+                opacity: 0.7;
+            }
+            100% {
+                box-shadow: 0 0 20px 10px rgba(255, 50, 0, 0.6);
+                opacity: 1;
+            }
         }
 
         .pfp {
@@ -107,6 +167,8 @@
             object-fit: cover;
             display: block;
             filter: grayscale(20%) contrast(110%) brightness(90%);
+            position: relative;
+            z-index: 2;
         }
 
         .glitch-text {
@@ -118,6 +180,19 @@
             font-weight: 700;
             letter-spacing: 1px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            animation: textGlow 3s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.2),
+                             0 0 10px rgba(255, 255, 255, 0.1);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.4),
+                             0 0 20px rgba(255, 255, 255, 0.2),
+                             0 0 30px rgba(255, 255, 255, 0.1);
+            }
         }
 
         .social-links {
@@ -421,6 +496,7 @@
             object-fit: cover;
             filter: grayscale(30%) contrast(110%);
             transition: filter 0.3s ease;
+            background-color: #1a1a1a;
         }
 
         .gallery-item:hover img {
@@ -491,6 +567,9 @@
         .track-info {
             text-align: center;
             margin-bottom: 1.2rem;
+            background: rgba(20, 20, 20, 0.5);
+            padding: 10px;
+            border-radius: 8px;
         }
 
         .track-title {
@@ -711,6 +790,47 @@
             transform: scale(1.04);
         }
 
+        .mobile-music-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-music-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-music-content {
+            background: var(--glass-bg);
+            padding: 1.8rem;
+            border-radius: 14px;
+            text-align: center;
+            max-width: 380px;
+            width: 80%;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-music-modal.visible .mobile-music-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -795,6 +915,7 @@
     </style>
 </head>
 <body>
+    <div id="threejs-background"></div>
     <div class="noise-background"></div>
 
     <div class="music-toggle" id="musicToggle">
@@ -851,11 +972,23 @@
         </div>
     </div>
 
+    <div class="mobile-music-modal" id="mobileMusicModal">
+        <div class="mobile-music-content">
+            <h3>Music Preferences</h3>
+            <p>Would you like to enable background music?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="enableMusic">Yes</button>
+                <button class="modal-btn cancel" id="disableMusic">No</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="glass-box">
             <div class="bio-section" id="bioSection">
                 <div class="profile-header">
-                    <div class="pfp-container">
+                    <div class="pfp-container" id="pfpContainer">
+                        <div class="pfp-glow" id="pfpGlow"></div>
                         <img class="pfp" alt="Ctrlswag" src="https://cdn.lewd.host/Zz72bobb.jpg">
                     </div>
                     <h1 class="glitch-text">Ctrlswag</h1>
@@ -954,6 +1087,209 @@
     </audio>
 
     <script>
+        // Three.js Background with Exploding Geometry
+        function initThreeJS() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ 
+                alpha: true,
+                antialias: true 
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            document.getElementById('threejs-background').appendChild(renderer.domElement);
+            
+            // Set camera position
+            camera.position.z = 5;
+            
+            // Create more complex geometries
+            const geometries = [
+                new THREE.DodecahedronGeometry(0.6, 0),
+                new THREE.IcosahedronGeometry(0.6, 1),
+                new THREE.OctahedronGeometry(0.6, 0),
+                new THREE.TorusKnotGeometry(0.4, 0.1, 100, 16),
+                new THREE.ConeGeometry(0.4, 1, 8),
+                new THREE.TetrahedronGeometry(0.6, 0),
+                new THREE.SphereGeometry(0.5, 12, 8),
+                new THREE.TorusGeometry(0.5, 0.2, 16, 100)
+            ];
+            
+            // Create materials with transparency
+            const materials = [
+                new THREE.MeshBasicMaterial({ 
+                    color: 0xffffff, 
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.07
+                }),
+                new THREE.MeshBasicMaterial({ 
+                    color: 0xaaaaaa, 
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.05
+                }),
+                new THREE.MeshBasicMaterial({ 
+                    color: 0x888888, 
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.06
+                })
+            ];
+            
+            // Create objects array
+            const objects = [];
+            const explodingObjects = [];
+            
+            // Function to create a new object
+            function createObject() {
+                const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+                const material = materials[Math.floor(Math.random() * materials.length)].clone();
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                
+                // Random position
+                mesh.position.x = (Math.random() - 0.5) * 10;
+                mesh.position.y = (Math.random() - 0.5) * 10;
+                mesh.position.z = (Math.random() - 0.5) * 10;
+                
+                // Random rotation
+                mesh.rotation.x = Math.random() * Math.PI;
+                mesh.rotation.y = Math.random() * Math.PI;
+                mesh.rotation.z = Math.random() * Math.PI;
+                
+                // Random scale
+                const scale = Math.random() * 0.8 + 0.5;
+                mesh.scale.set(scale, scale, scale);
+                
+                // Random velocity
+                mesh.velocity = new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.01,
+                    (Math.random() - 0.5) * 0.01,
+                    (Math.random() - 0.5) * 0.01
+                );
+                
+                // Random rotation speed
+                mesh.rotationSpeed = new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.01,
+                    (Math.random() - 0.5) * 0.01,
+                    (Math.random() - 0.5) * 0.01
+                );
+                
+                scene.add(mesh);
+                objects.push(mesh);
+                
+                return mesh;
+            }
+            
+            // Create initial objects
+            for (let i = 0; i < 15; i++) {
+                createObject();
+            }
+            
+            // Function to explode an object
+            function explodeObject(mesh) {
+                // Mark the object for explosion
+                mesh.exploding = true;
+                mesh.explodeProgress = 0;
+                mesh.originalScale = mesh.scale.clone();
+                
+                // Create explosion velocity (radial outward)
+                const explosionPower = 0.05 + Math.random() * 0.05;
+                mesh.explosionVelocity = new THREE.Vector3(
+                    (Math.random() - 0.5) * explosionPower,
+                    (Math.random() - 0.5) * explosionPower,
+                    (Math.random() - 0.5) * explosionPower
+                );
+                
+                // Add to exploding objects array
+                explodingObjects.push(mesh);
+                
+                // Remove from regular objects array
+                const index = objects.indexOf(mesh);
+                if (index > -1) {
+                    objects.splice(index, 1);
+                }
+            }
+            
+            // Animation function
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Update regular objects
+                objects.forEach(mesh => {
+                    // Update position
+                    mesh.position.add(mesh.velocity);
+                    
+                    // Update rotation
+                    mesh.rotation.x += mesh.rotationSpeed.x;
+                    mesh.rotation.y += mesh.rotationSpeed.y;
+                    mesh.rotation.z += mesh.rotationSpeed.z;
+                    
+                    // Bounce off boundaries
+                    if (Math.abs(mesh.position.x) > 5) mesh.velocity.x *= -1;
+                    if (Math.abs(mesh.position.y) > 5) mesh.velocity.y *= -1;
+                    if (Math.abs(mesh.position.z) > 5) mesh.velocity.z *= -1;
+                });
+                
+                // Update exploding objects
+                for (let i = explodingObjects.length - 1; i >= 0; i--) {
+                    const mesh = explodingObjects[i];
+                    
+                    // Increase explosion progress
+                    mesh.explodeProgress += 0.02;
+                    
+                    // Apply explosion velocity
+                    mesh.position.add(mesh.explosionVelocity);
+                    
+                    // Increase velocity for more dramatic effect
+                    mesh.explosionVelocity.multiplyScalar(1.05);
+                    
+                    // Fade out material
+                    mesh.material.opacity = Math.max(0, 0.07 * (1 - mesh.explodeProgress));
+                    
+                    // Scale down
+                    const scaleFactor = 1 - mesh.explodeProgress;
+                    mesh.scale.set(
+                        mesh.originalScale.x * scaleFactor,
+                        mesh.originalScale.y * scaleFactor,
+                        mesh.originalScale.z * scaleFactor
+                    );
+                    
+                    // Remove when fully exploded
+                    if (mesh.explodeProgress >= 1) {
+                        scene.remove(mesh);
+                        explodingObjects.splice(i, 1);
+                    }
+                }
+                
+                // Occasionally add new objects
+                if (Math.random() < 0.01 && objects.length + explodingObjects.length < 30) {
+                    createObject();
+                }
+                
+                // Occasionally remove/explode objects
+                if (Math.random() < 0.005 && objects.length > 10) {
+                    const randomIndex = Math.floor(Math.random() * objects.length);
+                    explodeObject(objects[randomIndex]);
+                }
+                
+                renderer.render(scene, camera);
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // Start animation
+            animate();
+        }
+
+        // Initialize Three.js
+        initThreeJS();
+
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playButton');
         const playIcon = document.getElementById('playIcon');
@@ -973,11 +1309,42 @@
         const aboutToggle = document.getElementById('aboutToggle');
         const bioSection = document.getElementById('bioSection');
         const aboutSection = document.getElementById('aboutSection');
+        const pfpContainer = document.getElementById('pfpContainer');
+        const pfpGlow = document.getElementById('pfpGlow');
+        const mobileMusicModal = document.getElementById('mobileMusicModal');
+        const enableMusicBtn = document.getElementById('enableMusic');
+        const disableMusicBtn = document.getElementById('disableMusic');
 
         let redirectUrl = '';
         let isPlaying = false;
         let isPlayerVisible = false;
         let isAboutVisible = false;
+        let clickCount = 0;
+        let isFireEffect = false;
+
+        // Mobile detection
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+
+        // Profile picture click handler for effect toggle
+        pfpContainer.addEventListener('click', function() {
+            clickCount++;
+            
+            if (clickCount % 3 === 0) {
+                if (!isFireEffect) {
+                    // Switch to fire effect
+                    pfpGlow.classList.remove('pfp-glow');
+                    pfpGlow.classList.add('fire-glow');
+                    isFireEffect = true;
+                } else {
+                    // Switch back to halo effect
+                    pfpGlow.classList.remove('fire-glow');
+                    pfpGlow.classList.add('pfp-glow');
+                    isFireEffect = false;
+                }
+            }
+        });
 
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
@@ -1081,21 +1448,50 @@
             }
         });
 
-        window.addEventListener('load', function() {
+        // Mobile music preference handling
+        enableMusicBtn.addEventListener('click', function() {
+            mobileMusicModal.classList.remove('visible');
             audio.volume = 0.25;
             volumeSlider.value = 25;
-            
-            const playAudio = () => {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
-                }).catch(e => {
-                    console.log('Audio play failed:', e);
-                });
-            };
-            
             playAudio();
+        });
+
+        disableMusicBtn.addEventListener('click', function() {
+            mobileMusicModal.classList.remove('visible');
+            audio.volume = 0;
+            volumeSlider.value = 0;
+            if (isPlaying) {
+                togglePlayback();
+            }
+        });
+
+        function playAudio() {
+            audio.play().then(() => {
+                isPlaying = true;
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            }).catch(e => {
+                console.log('Audio play failed:', e);
+                // If autoplay fails, add a click event to start audio
+                document.body.addEventListener('click', function() {
+                    audio.play().then(() => {
+                        isPlaying = true;
+                        playIcon.classList.remove('fa-play');
+                        playIcon.classList.add('fa-pause');
+                    });
+                }, { once: true });
+            });
+        }
+
+        window.addEventListener('load', function() {
+            // Show mobile music preference modal if on mobile
+            if (isMobileDevice()) {
+                mobileMusicModal.classList.add('visible');
+            } else {
+                audio.volume = 0.25;
+                volumeSlider.value = 25;
+                playAudio();
+            }
             
             audio.addEventListener('loadedmetadata', function() {
                 updateTimeDisplays();
@@ -1106,14 +1502,15 @@
             }, 1000);
         });
 
-        document.addEventListener('touchstart', function() {
+        // Add click event to start audio if it hasn't started
+        document.addEventListener('click', function() {
             if (!isPlaying && audio.paused) {
                 audio.play().then(() => {
                     isPlaying = true;
                     playIcon.classList.remove('fa-play');
                     playIcon.classList.add('fa-pause');
                 }).catch(e => {
-                    console.log('Audio play on touch failed:', e);
+                    console.log('Audio play on click failed:', e);
                 });
             }
         }, { once: true });
