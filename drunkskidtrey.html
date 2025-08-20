@@ -52,7 +52,6 @@
             width: 100%;
             height: 100%;
             z-index: -3;
-            filter: blur(5px) brightness(0.7); /* Added blur and darken effect */
         }
 
         .noise-background {
@@ -107,7 +106,6 @@
             border-radius: 50%;
             overflow: visible;
             transition: all 0.5s ease;
-            cursor: pointer;
         }
 
         .pfp-glow {
@@ -117,45 +115,19 @@
             right: -10px;
             bottom: -10px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05); /* Reduced intensity */
-            box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.15); /* Reduced intensity */
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.3);
             animation: pulseGlow 2s infinite alternate;
             z-index: -1;
-            transition: all 0.5s ease;
-        }
-
-        .fire-glow {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            background: rgba(255, 50, 0, 0.1);
-            box-shadow: 0 0 15px 8px rgba(255, 50, 0, 0.4);
-            animation: pulseFire 2s infinite alternate;
-            z-index: -1;
-            transition: all 0.5s ease;
         }
 
         @keyframes pulseGlow {
             0% {
-                box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.1);
+                box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.2);
                 opacity: 0.7;
             }
             100% {
-                box-shadow: 0 0 15px 7px rgba(255, 255, 255, 0.2);
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulseFire {
-            0% {
-                box-shadow: 0 0 10px 5px rgba(255, 50, 0, 0.3);
-                opacity: 0.7;
-            }
-            100% {
-                box-shadow: 0 0 20px 10px rgba(255, 50, 0, 0.6);
+                box-shadow: 0 0 25px 10px rgba(255, 255, 255, 0.4);
                 opacity: 1;
             }
         }
@@ -790,47 +762,6 @@
             transform: scale(1.04);
         }
 
-        .mobile-music-modal {
-            display: flex;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 1001;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-music-modal.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-music-content {
-            background: var(--glass-bg);
-            padding: 1.8rem;
-            border-radius: 14px;
-            text-align: center;
-            max-width: 380px;
-            width: 80%;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-            transform: translateY(20px) scale(0.95);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-music-modal.visible .mobile-music-content {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -972,23 +903,12 @@
         </div>
     </div>
 
-    <div class="mobile-music-modal" id="mobileMusicModal">
-        <div class="mobile-music-content">
-            <h3>Music Preferences</h3>
-            <p>Would you like to enable background music?</p>
-            <div class="modal-buttons">
-                <button class="modal-btn confirm" id="enableMusic">Yes</button>
-                <button class="modal-btn cancel" id="disableMusic">No</button>
-            </div>
-        </div>
-    </div>
-
     <div class="container">
         <div class="glass-box">
             <div class="bio-section" id="bioSection">
                 <div class="profile-header">
-                    <div class="pfp-container" id="pfpContainer">
-                        <div class="pfp-glow" id="pfpGlow"></div>
+                    <div class="pfp-container">
+                        <div class="pfp-glow"></div>
                         <img class="pfp" alt="Ctrlswag" src="https://cdn.lewd.host/Zz72bobb.jpg">
                     </div>
                     <h1 class="glitch-text">Ctrlswag</h1>
@@ -1309,42 +1229,11 @@
         const aboutToggle = document.getElementById('aboutToggle');
         const bioSection = document.getElementById('bioSection');
         const aboutSection = document.getElementById('aboutSection');
-        const pfpContainer = document.getElementById('pfpContainer');
-        const pfpGlow = document.getElementById('pfpGlow');
-        const mobileMusicModal = document.getElementById('mobileMusicModal');
-        const enableMusicBtn = document.getElementById('enableMusic');
-        const disableMusicBtn = document.getElementById('disableMusic');
 
         let redirectUrl = '';
         let isPlaying = false;
         let isPlayerVisible = false;
         let isAboutVisible = false;
-        let clickCount = 0;
-        let isFireEffect = false;
-
-        // Mobile detection
-        function isMobileDevice() {
-            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-        }
-
-        // Profile picture click handler for effect toggle
-        pfpContainer.addEventListener('click', function() {
-            clickCount++;
-            
-            if (clickCount % 3 === 0) {
-                if (!isFireEffect) {
-                    // Switch to fire effect
-                    pfpGlow.classList.remove('pfp-glow');
-                    pfpGlow.classList.add('fire-glow');
-                    isFireEffect = true;
-                } else {
-                    // Switch back to halo effect
-                    pfpGlow.classList.remove('fire-glow');
-                    pfpGlow.classList.add('pfp-glow');
-                    isFireEffect = false;
-                }
-            }
-        });
 
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
@@ -1448,50 +1337,30 @@
             }
         });
 
-        // Mobile music preference handling
-        enableMusicBtn.addEventListener('click', function() {
-            mobileMusicModal.classList.remove('visible');
+        window.addEventListener('load', function() {
             audio.volume = 0.25;
             volumeSlider.value = 25;
+            
+            // Auto-play music on page load
+            const playAudio = () => {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }).catch(e => {
+                    console.log('Audio play failed:', e);
+                    // If autoplay fails, add a click event to start audio
+                    document.body.addEventListener('click', function() {
+                        audio.play().then(() => {
+                            isPlaying = true;
+                            playIcon.classList.remove('fa-play');
+                            playIcon.classList.add('fa-pause');
+                        });
+                    }, { once: true });
+                });
+            };
+            
             playAudio();
-        });
-
-        disableMusicBtn.addEventListener('click', function() {
-            mobileMusicModal.classList.remove('visible');
-            audio.volume = 0;
-            volumeSlider.value = 0;
-            if (isPlaying) {
-                togglePlayback();
-            }
-        });
-
-        function playAudio() {
-            audio.play().then(() => {
-                isPlaying = true;
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
-            }).catch(e => {
-                console.log('Audio play failed:', e);
-                // If autoplay fails, add a click event to start audio
-                document.body.addEventListener('click', function() {
-                    audio.play().then(() => {
-                        isPlaying = true;
-                        playIcon.classList.remove('fa-play');
-                        playIcon.classList.add('fa-pause');
-                    });
-                }, { once: true });
-            });
-        }
-
-        window.addEventListener('load', function() {
-            // Show mobile music preference modal if on mobile
-            if (isMobileDevice()) {
-                mobileMusicModal.classList.add('visible');
-            } else {
-                audio.volume = 0.25;
-                volumeSlider.value = 25;
-                playAudio();
-            }
             
             audio.addEventListener('loadedmetadata', function() {
                 updateTimeDisplays();
