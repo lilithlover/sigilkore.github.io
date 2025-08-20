@@ -532,6 +532,7 @@
             color: var(--text-color);
             opacity: 0.8;
             min-width: 40px;
+            font-variant-numeric: tabular-nums;
         }
 
         .progress-bar {
@@ -704,6 +705,56 @@
             height: 100%;
             object-fit: cover;
             border-radius: 8px;
+        }
+
+        /* Video Popout Styles */
+        .video-popout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
+            height: 120px;
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 90;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .video-popout.visible {
+            display: block;
+        }
+
+        .video-popout.minimized {
+            transform: scale(0.8);
+            opacity: 0.7;
+        }
+
+        #popoutVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .close-popout {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+            z-index: 91;
         }
 
         .overlay {
@@ -936,6 +987,13 @@
             .video-container.visible {
                 height: 150px;
             }
+            
+            .video-popout {
+                width: 160px;
+                height: 100px;
+                bottom: 15px;
+                right: 15px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -973,6 +1031,13 @@
             
             .video-container.visible {
                 height: 130px;
+            }
+            
+            .video-popout {
+                width: 140px;
+                height: 90px;
+                bottom: 10px;
+                right: 10px;
             }
         }
 
@@ -1029,7 +1094,6 @@
             <div class="time-display" id="duration">0:00</div>
         </div>
         
-        <!-- Duration slider -->
         <input type="range" class="duration-slider" id="durationSlider" min="0" max="100" value="0">
         
         <div class="controls">
@@ -1050,13 +1114,21 @@
             <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="25">
         </div>
         
-        <!-- Video container that appears when music player is opened -->
         <div class="video-container" id="videoContainer">
-            <video id="videoPlayer" controls>
+            <video id="videoPlayer" muted>
                 <source src="" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
+    </div>
+
+    <!-- Video Popout Element -->
+    <div class="video-popout" id="videoPopout">
+        <button class="close-popout" id="closePopout">✕</button>
+        <video id="popoutVideo" muted>
+            <source src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
     <div class="overlay" id="overlay"></div>
@@ -1123,26 +1195,26 @@
                 <h2 class="about-title">About Me</h2>
                 
                 <p class="about-text">
-                    Hi, I'm <span class="about-highlight">Ctrlswag</span>, I love music please don't hesitate to send me songs or talk about music!
+                    Hi, I'm <span class="about-highlight">Ctrlswag</span>, a creative developer and music producer with a passion for creating immersive digital experiences.
                 </p>
                 
                 <p class="about-text">
-                    I specialize in marketing and have been doing so for a long time. I am perfect at customer service and managing projects.
+                    I specialize in front-end development, UI/UX design, and audio production, blending technical skills with artistic vision to create unique projects.
                 </p>
                 
                 <p class="about-text">
-                    When I'm not doing anything i like to make my own music for myself. I listen to music everyday!
+                    When I'm not coding or producing music, you can find me exploring new technologies, collaborating with other creators, or gaming.
                 </p>
                 
                 <p class="about-text">
-                    Feel free to connect with me on social media! see you :) - <span class="about-highlight">Ctrlswag</span>
+                    Feel free to connect with me on social media or check out my latest projects!
                 </p>
             </div>
         </div>
     </div>
 
     <audio loop id="audio">
-        <source src="https://cdn.lewd.host/L6oHJAjg.mp3" type="audio/mp3">
+        <source src="https://cdn.lewd.host/cq6Nujw1.mp3" type="audio/mp3">
     </audio>
 
     <script>
@@ -1158,10 +1230,8 @@
             renderer.setClearColor(0x000000, 0);
             document.getElementById('threejs-background').appendChild(renderer.domElement);
             
-            // Set camera position
             camera.position.z = 5;
             
-            // Create more complex geometries
             const geometries = [
                 new THREE.DodecahedronGeometry(0.6, 0),
                 new THREE.IcosahedronGeometry(0.6, 1),
@@ -1173,7 +1243,6 @@
                 new THREE.TorusGeometry(0.5, 0.2, 16, 100)
             ];
             
-            // Create materials with transparency
             const materials = [
                 new THREE.MeshBasicMaterial({ 
                     color: 0xffffff, 
@@ -1195,39 +1264,32 @@
                 })
             ];
             
-            // Create objects array
             const objects = [];
             const explodingObjects = [];
             
-            // Function to create a new object
             function createObject() {
                 const geometry = geometries[Math.floor(Math.random() * geometries.length)];
                 const material = materials[Math.floor(Math.random() * materials.length)].clone();
                 
                 const mesh = new THREE.Mesh(geometry, material);
                 
-                // Random position
                 mesh.position.x = (Math.random() - 0.5) * 10;
                 mesh.position.y = (Math.random() - 0.5) * 10;
                 mesh.position.z = (Math.random() - 0.5) * 10;
                 
-                // Random rotation
                 mesh.rotation.x = Math.random() * Math.PI;
                 mesh.rotation.y = Math.random() * Math.PI;
                 mesh.rotation.z = Math.random() * Math.PI;
                 
-                // Random scale
                 const scale = Math.random() * 0.8 + 0.5;
                 mesh.scale.set(scale, scale, scale);
                 
-                // Random velocity
                 mesh.velocity = new THREE.Vector3(
                     (Math.random() - 0.5) * 0.01,
                     (Math.random() - 0.5) * 0.01,
                     (Math.random() - 0.5) * 0.01
                 );
                 
-                // Random rotation speed
                 mesh.rotationSpeed = new THREE.Vector3(
                     (Math.random() - 0.5) * 0.01,
                     (Math.random() - 0.5) * 0.01,
@@ -1240,19 +1302,15 @@
                 return mesh;
             }
             
-            // Create initial objects
             for (let i = 0; i < 15; i++) {
                 createObject();
             }
             
-            // Function to explode an object
             function explodeObject(mesh) {
-                // Mark the object for explosion
                 mesh.exploding = true;
                 mesh.explodeProgress = 0;
                 mesh.originalScale = mesh.scale.clone();
                 
-                // Create explosion velocity (radial outward)
                 const explosionPower = 0.05 + Math.random() * 0.05;
                 mesh.explosionVelocity = new THREE.Vector3(
                     (Math.random() - 0.5) * explosionPower,
@@ -1260,53 +1318,37 @@
                     (Math.random() - 0.5) * explosionPower
                 );
                 
-                // Add to exploding objects array
                 explodingObjects.push(mesh);
                 
-                // Remove from regular objects array
                 const index = objects.indexOf(mesh);
                 if (index > -1) {
                     objects.splice(index, 1);
                 }
             }
             
-            // Animation function
             function animate() {
                 requestAnimationFrame(animate);
                 
-                // Update regular objects
                 objects.forEach(mesh => {
-                    // Update position
                     mesh.position.add(mesh.velocity);
                     
-                    // Update rotation
                     mesh.rotation.x += mesh.rotationSpeed.x;
                     mesh.rotation.y += mesh.rotationSpeed.y;
                     mesh.rotation.z += mesh.rotationSpeed.z;
                     
-                    // Bounce off boundaries
                     if (Math.abs(mesh.position.x) > 5) mesh.velocity.x *= -1;
                     if (Math.abs(mesh.position.y) > 5) mesh.velocity.y *= -1;
                     if (Math.abs(mesh.position.z) > 5) mesh.velocity.z *= -1;
                 });
                 
-                // Update exploding objects
                 for (let i = explodingObjects.length - 1; i >= 0; i--) {
                     const mesh = explodingObjects[i];
                     
-                    // Increase explosion progress
                     mesh.explodeProgress += 0.02;
-                    
-                    // Apply explosion velocity
                     mesh.position.add(mesh.explosionVelocity);
-                    
-                    // Increase velocity for more dramatic effect
                     mesh.explosionVelocity.multiplyScalar(1.05);
-                    
-                    // Fade out material
                     mesh.material.opacity = Math.max(0, 0.07 * (1 - mesh.explodeProgress));
                     
-                    // Scale down
                     const scaleFactor = 1 - mesh.explodeProgress;
                     mesh.scale.set(
                         mesh.originalScale.x * scaleFactor,
@@ -1314,19 +1356,16 @@
                         mesh.originalScale.z * scaleFactor
                     );
                     
-                    // Remove when fully exploded
                     if (mesh.explodeProgress >= 1) {
                         scene.remove(mesh);
                         explodingObjects.splice(i, 1);
                     }
                 }
                 
-                // Occasionally add new objects
                 if (Math.random() < 0.01 && objects.length + explodingObjects.length < 30) {
                     createObject();
                 }
                 
-                // Occasionally remove/explode objects
                 if (Math.random() < 0.005 && objects.length > 10) {
                     const randomIndex = Math.floor(Math.random() * objects.length);
                     explodeObject(objects[randomIndex]);
@@ -1335,14 +1374,12 @@
                 renderer.render(scene, camera);
             }
             
-            // Handle window resize
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
             
-            // Start animation
             animate();
         }
 
@@ -1378,6 +1415,9 @@
         const loader = document.getElementById('loader');
         const videoContainer = document.getElementById('videoContainer');
         const videoPlayer = document.getElementById('videoPlayer');
+        const videoPopout = document.getElementById('videoPopout');
+        const popoutVideo = document.getElementById('popoutVideo');
+        const closePopout = document.getElementById('closePopout');
         const redirectUrlElement = document.getElementById('redirectUrl');
         const customCursor = document.querySelector('.custom-cursor');
 
@@ -1390,14 +1430,29 @@
         let videoLoaded = false;
         let isMuted = false;
         let previousVolume = 25;
+        let videoEnabled = true;
+        let popoutClickCount = 0;
+        let lastPopoutClickTime = 0;
+        let mouseX = 0;
+        let mouseY = 0;
 
-    
-        const videoSource = "https://cdn.lewd.host/ZfNOqZDB.mp4";
+        // Video source
+        const videoSource = "https://cdn.lewd.host/sample-video.mp4";
+
+        // Optimized cursor movement with requestAnimationFrame
+        function updateCursor() {
+            customCursor.style.left = mouseX + 'px';
+            customCursor.style.top = mouseY + 'px';
+            requestAnimationFrame(updateCursor);
+        }
 
         document.addEventListener('mousemove', (e) => {
-            customCursor.style.left = e.clientX + 'px';
-            customCursor.style.top = e.clientY + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
+
+        // Start the cursor animation
+        updateCursor();
 
         // Add hover effect to interactive elements
         const interactiveElements = document.querySelectorAll('button, a, input[type="range"], .music-toggle, .about-toggle');
@@ -1421,12 +1476,10 @@
             
             if (clickCount % 3 === 0) {
                 if (!isFireEffect) {
-                    // Switch to fire effect
                     pfpGlow.classList.remove('pfp-glow');
                     pfpGlow.classList.add('fire-glow');
                     isFireEffect = true;
                 } else {
-                    // Switch back to halo effect
                     pfpGlow.classList.remove('fire-glow');
                     pfpGlow.classList.add('pfp-glow');
                     isFireEffect = false;
@@ -1457,36 +1510,88 @@
                 musicToggle.classList.add('active');
                 
                 // Load and show video when music player is opened
-                if (!videoLoaded) {
+                if (!videoLoaded && videoEnabled) {
                     videoPlayer.src = videoSource;
                     videoPlayer.load();
                     videoLoaded = true;
                 }
-                videoContainer.classList.add('visible');
+                
+                if (videoEnabled) {
+                    videoContainer.classList.add('visible');
+                    videoPlayer.play().catch(e => console.log('Video play failed:', e));
+                    
+                    // Hide popout if visible
+                    videoPopout.classList.remove('visible');
+                    popoutVideo.pause();
+                }
             } else {
                 musicPlayer.classList.remove('visible');
                 overlay.classList.remove('visible');
                 musicToggle.classList.remove('active');
                 
-                // Hide video when music player is closed
-                videoContainer.classList.remove('visible');
-                videoPlayer.pause();
+                // Handle video popout when closing music player
+                if (videoEnabled && videoLoaded) {
+                    const currentTime = videoPlayer.currentTime;
+                    videoContainer.classList.remove('visible');
+                    videoPlayer.pause();
+                    
+                    // Show popout video
+                    if (!popoutVideo.src) {
+                        popoutVideo.src = videoSource;
+                    }
+                    popoutVideo.currentTime = currentTime;
+                    videoPopout.classList.add('visible');
+                    popoutVideo.play().catch(e => console.log('Popout video play failed:', e));
+                }
             }
         }
 
+        // Close popout video
+        closePopout.addEventListener('click', function(e) {
+            e.stopPropagation();
+            videoPopout.classList.remove('visible');
+            popoutVideo.pause();
+        });
+
+        // Triple click to disable video
+        videoPopout.addEventListener('click', function() {
+            const now = Date.now();
+            if (now - lastPopoutClickTime > 300) {
+                popoutClickCount = 0;
+            }
+            
+            popoutClickCount++;
+            lastPopoutClickTime = now;
+            
+            if (popoutClickCount >= 3) {
+                videoEnabled = false;
+                videoPopout.classList.remove('visible');
+                popoutVideo.pause();
+                popoutClickCount = 0;
+                
+                // Show a quick visual feedback
+                videoPopout.style.opacity = '0.5';
+                setTimeout(() => {
+                    videoPopout.style.opacity = '1';
+                }, 300);
+            }
+        });
+
         musicToggle.addEventListener('click', toggleMusicPlayer);
         closePlayer.addEventListener('click', toggleMusicPlayer);
-        overlay.addEventListener('click', toggleMusicPlayer);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                toggleMusicPlayer();
+            }
+        });
 
         function toggleMute() {
             if (isMuted) {
-                // Unmute
                 audio.volume = previousVolume / 100;
                 volumeSlider.value = previousVolume;
                 volumeIcon.classList.remove('muted');
                 isMuted = false;
             } else {
-                // Mute
                 previousVolume = volumeSlider.value;
                 audio.volume = 0;
                 volumeSlider.value = 0;
@@ -1566,18 +1671,14 @@
             isAboutVisible = !isAboutVisible;
             
             if (isAboutVisible) {
-                // Fade out bio section first
                 bioSection.classList.add('hidden');
-                // Wait for fade out to complete before showing about section
                 setTimeout(() => {
                     aboutSection.classList.add('visible');
                     aboutToggle.classList.add('active');
                 }, 500);
             } else {
-                // Fade out about section first
                 aboutSection.classList.remove('visible');
                 aboutToggle.classList.remove('active');
-                // Wait for fade out to complete before showing bio section
                 setTimeout(() => {
                     bioSection.classList.remove('hidden');
                 }, 500);
@@ -1608,7 +1709,6 @@
                 playIcon.classList.add('fa-pause');
             }).catch(e => {
                 console.log('Audio play failed:', e);
-                // If autoplay fails, add a click event to start audio
                 document.body.addEventListener('click', function() {
                     audio.play().then(() => {
                         isPlaying = true;
@@ -1620,7 +1720,6 @@
         }
 
         window.addEventListener('load', function() {
-            // Show mobile music preference modal if on mobile
             if (isMobileDevice()) {
                 mobileMusicModal.classList.add('visible');
             } else {
@@ -1639,7 +1738,6 @@
             }, 1500);
         });
 
-        // Add click event to start audio if it hasn't started
         document.addEventListener('click', function() {
             if (!isPlaying && audio.paused) {
                 audio.play().then(() => {
