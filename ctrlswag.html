@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ctrlswag - Enhanced</title>
+    <title>Ctrlswag</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet">
     <link rel="icon" href="https://cdn.lewd.host/Zz72bobb.jpg">
     <script src="https://kit.fontawesome.com/cf16def632.js" crossorigin="anonymous" defer></script>
@@ -26,11 +25,14 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            cursor: none;
         }
 
         html, body {
             height: 100%;
             overflow: hidden;
+            touch-action: manipulation;
         }
 
         body {
@@ -46,6 +48,26 @@
             line-height: 1.6;
         }
 
+        .custom-cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .custom-cursor.hover {
+            width: 16px;
+            height: 16px;
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+        }
+
         #threejs-background {
             position: fixed;
             top: 0;
@@ -53,7 +75,7 @@
             width: 100%;
             height: 100%;
             z-index: -3;
-            filter: blur(5px) brightness(0.7); /* Added blur and darken effect */
+            filter: blur(5px) brightness(0.7);
         }
 
         .noise-background {
@@ -102,24 +124,24 @@
 
         .pfp-container {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto 1rem;
             border-radius: 50%;
             overflow: visible;
             transition: all 0.5s ease;
-            cursor: pointer;
+            cursor: none;
         }
 
         .pfp-glow {
             position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05); /* Reduced intensity */
-            box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.15); /* Reduced intensity */
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.15);
             animation: pulseGlow 2s infinite alternate;
             z-index: -1;
             transition: all 0.5s ease;
@@ -127,10 +149,10 @@
 
         .fire-glow {
             position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
             border-radius: 50%;
             background: rgba(255, 50, 0, 0.1);
             box-shadow: 0 0 15px 8px rgba(255, 50, 0, 0.4);
@@ -217,6 +239,7 @@
             transition: all 0.3s ease;
             border: 1px solid rgba(80, 80, 80, 0.3);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            cursor: none;
         }
 
         .social-link:hover {
@@ -286,7 +309,7 @@
             justify-content: center;
             background: rgba(20, 20, 20, 0.8);
             color: white;
-            cursor: pointer;
+            cursor: none;
             transition: all 0.3s ease;
             border: 1px solid rgba(100, 100, 100, 0.3);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -316,7 +339,7 @@
             justify-content: center;
             background: rgba(20, 20, 20, 0.8);
             color: white;
-            cursor: pointer;
+            cursor: none;
             transition: all 0.3s ease;
             border: 1px solid rgba(100, 100, 100, 0.3);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -357,6 +380,9 @@
             transition: opacity 0.5s ease;
             overflow-y: auto;
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .about-section.visible {
@@ -389,6 +415,7 @@
             line-height: 1.7;
             position: relative;
             padding-left: 20px;
+            text-align: center;
         }
 
         .about-text::before {
@@ -407,109 +434,12 @@
             font-weight: 500;
         }
 
-        .skill-bars {
-            margin-top: 2rem;
-        }
-
-        .skill-bar {
-            margin-bottom: 1.5rem;
-        }
-
-        .skill-name {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.7rem;
-            font-size: 0.95rem;
-        }
-
-        .skill-progress {
-            height: 8px;
-            background: rgba(100, 100, 100, 0.3);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .skill-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            background-image: linear-gradient(
-                -45deg, 
-                rgba(255, 255, 255, 0.2) 25%, 
-                transparent 25%, 
-                transparent 50%, 
-                rgba(255, 255, 255, 0.2) 50%, 
-                rgba(255, 255, 255, 0.2) 75%, 
-                transparent 75%, 
-                transparent
-            );
-            z-index: 1;
-            background-size: 15px 15px;
-            animation: move 2s linear infinite;
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-
-        @keyframes move {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 15px 15px;
-            }
-        }
-
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .gallery-item {
-            border-radius: 8px;
-            overflow: hidden;
-            height: 120px;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.03);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(30%) contrast(110%);
-            transition: filter 0.3s ease;
-            background-color: #1a1a1a;
-        }
-
-        .gallery-item:hover img {
-            filter: grayscale(0%) contrast(120%);
-        }
-
         .music-player {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 340px;
+            width: 380px;
             background: rgba(15, 15, 15, 0.95);
             border-radius: 16px;
             padding: 1.5rem;
@@ -549,7 +479,7 @@
             border: none;
             color: var(--text-color);
             font-size: 1.2rem;
-            cursor: pointer;
+            cursor: none;
             transition: all 0.2s ease;
             width: 30px;
             height: 30px;
@@ -578,6 +508,9 @@
             margin-bottom: 0.2rem;
             color: var(--text-color);
             font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .track-artist {
@@ -608,7 +541,7 @@
             overflow: hidden;
             flex: 1;
             position: relative;
-            cursor: pointer;
+            cursor: none;
         }
 
         .progress {
@@ -632,7 +565,7 @@
             border: none;
             color: var(--text-color);
             font-size: 1.2rem;
-            cursor: pointer;
+            cursor: none;
             transition: all 0.2s ease;
             width: 36px;
             height: 36px;
@@ -656,7 +589,7 @@
             justify-content: center;
             background: rgba(30, 30, 30, 0.9);
             color: white;
-            cursor: pointer;
+            cursor: none;
             transition: all 0.3s ease;
             border: 1px solid rgba(100, 100, 100, 0.3);
             font-size: 1.1rem;
@@ -677,6 +610,29 @@
             border-top: 1px solid rgba(80, 80, 80, 0.3);
         }
 
+        .volume-icon {
+            cursor: none;
+            transition: all 0.2s ease;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .volume-icon.muted::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 2px;
+            background: var(--primary-color);
+            transform: translate(-50%, -50%) rotate(45deg);
+            transform-origin: center;
+        }
+
         .volume-slider {
             -webkit-appearance: none;
             flex: 1;
@@ -684,6 +640,7 @@
             border-radius: 2px;
             background: rgba(100, 100, 100, 0.3);
             outline: none;
+            cursor: none;
         }
 
         .volume-slider::-webkit-slider-thumb {
@@ -692,12 +649,61 @@
             height: 14px;
             border-radius: 50%;
             background: var(--primary-color);
-            cursor: pointer;
+            cursor: none;
             transition: all 0.2s ease;
         }
 
         .volume-slider::-webkit-slider-thumb:hover {
             transform: scale(1.2);
+        }
+
+        .duration-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(100, 100, 100, 0.3);
+            outline: none;
+            margin-top: 0.5rem;
+            cursor: none;
+        }
+
+        .duration-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: none;
+            transition: all 0.2s ease;
+        }
+
+        .duration-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .video-container {
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            background: rgba(10, 10, 10, 0.4);
+            display: none;
+            height: 0;
+            transition: height 0.3s ease;
+        }
+
+        .video-container.visible {
+            display: block;
+            height: 180px;
+        }
+
+        #videoPlayer {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
         }
 
         .overlay {
@@ -760,6 +766,18 @@
             opacity: 1;
         }
 
+        .modal-url {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            word-break: break-all;
+            padding: 0.5rem;
+            background: rgba(20, 20, 20, 0.5);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
         .modal-buttons {
             display: flex;
             justify-content: center;
@@ -771,7 +789,7 @@
             padding: 0.45rem 1.3rem;
             border: none;
             border-radius: 25px;
-            cursor: pointer;
+            cursor: none;
             transition: all 0.3s ease;
             font-weight: 500;
             font-size: 0.9rem;
@@ -832,6 +850,45 @@
             opacity: 1;
         }
 
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -858,12 +915,13 @@
             }
             
             .music-player {
-                width: 320px;
+                width: 340px;
+                padding: 1.2rem;
             }
             
             .pfp-container {
-                width: 100px;
-                height: 100px;
+                width: 90px;
+                height: 90px;
             }
             
             .status-container {
@@ -875,8 +933,8 @@
                 height: 40px;
             }
             
-            .image-gallery {
-                grid-template-columns: 1fr;
+            .video-container.visible {
+                height: 150px;
             }
         }
 
@@ -890,8 +948,8 @@
             }
             
             .pfp-container {
-                width: 90px;
-                height: 90px;
+                width: 80px;
+                height: 80px;
             }
             
             .music-toggle, .about-toggle {
@@ -905,17 +963,44 @@
             }
             
             .music-player {
-                width: 300px;
+                width: 320px;
                 padding: 1.2rem;
             }
             
             .about-section {
                 padding: 1.5rem;
             }
+            
+            .video-container.visible {
+                height: 130px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .about-section {
+                padding: 1rem;
+                overflow-y: auto;
+            }
+            
+            .about-text {
+                margin-bottom: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .about-title {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="custom-cursor"></div>
+    
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
     <div id="threejs-background"></div>
     <div class="noise-background"></div>
 
@@ -943,6 +1028,10 @@
             </div>
             <div class="time-display" id="duration">0:00</div>
         </div>
+        
+        <!-- Duration slider -->
+        <input type="range" class="duration-slider" id="durationSlider" min="0" max="100" value="0">
+        
         <div class="controls">
             <button class="control-btn" id="prevButton">
                 <i class="fas fa-step-backward"></i>
@@ -955,8 +1044,18 @@
             </button>
         </div>
         <div class="volume-control">
-            <i class="fas fa-volume-up"></i>
+            <div class="volume-icon" id="volumeIcon">
+                <i class="fas fa-volume-up"></i>
+            </div>
             <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="25">
+        </div>
+        
+        <!-- Video container that appears when music player is opened -->
+        <div class="video-container" id="videoContainer">
+            <video id="videoPlayer" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </div>
 
@@ -965,7 +1064,9 @@
     <div class="modal" id="confirmationModal">
         <div class="modal-content">
             <h3>Leave this site?</h3>
-            <p>You are about to be redirected to Instagram. Do you wish to continue?</p>
+            <p>You are about to be redirected to:</p>
+            <span class="modal-url" id="redirectUrl"></span>
+            <p>Do you wish to continue?</p>
             <div class="modal-buttons">
                 <button class="modal-btn confirm" id="confirmRedirect">Yes</button>
                 <button class="modal-btn cancel" id="cancelRedirect">Cancel</button>
@@ -1022,63 +1123,20 @@
                 <h2 class="about-title">About Me</h2>
                 
                 <p class="about-text">
-                    Hi, I'm <span class="about-highlight">Ctrlswag</span>, text here
+                    Hi, I'm <span class="about-highlight">Ctrlswag</span>, I love music please don't hesitate to send me songs or talk about music!
                 </p>
                 
                 <p class="about-text">
-                    text here
+                    I specialize in marketing and have been doing so for a long time. I am perfect at customer service and managing projects.
                 </p>
                 
-                <div class="image-gallery">
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x200/0F0F0F/9d9d9d?text=Studio" alt="test">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://via.placeholder.com/300x200/0F0F0F/9d9d9d?text=Music" alt="test">
-                    </div>
-                </div>
+                <p class="about-text">
+                    When I'm not doing anything i like to make my own music for myself. I listen to music everyday!
+                </p>
                 
-                <div class="skill-bars">
-                    <div class="skill-bar">
-                        <div class="skill-name">
-                            <span>rapist</span>
-                            <span>100%</span>
-                        </div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-bar" style="width: 100%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-bar">
-                        <div class="skill-name">
-                            <span>coder</span>
-                            <span>0%</span>
-                        </div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-bar" style="width: 100%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-bar">
-                        <div class="skill-name">
-                            <span>skid</span>
-                            <span>100%</span>
-                        </div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-bar" style="width: 100%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-bar">
-                        <div class="skill-name">
-                            <span>thug</span>
-                            <span>100%</span>
-                        </div>
-                        <div class="skill-progress">
-                            <div class="skill-progress-bar" style="width: 100%"></div>
-                        </div>
-                    </div>
-                </div>
+                <p class="about-text">
+                    Feel free to connect with me on social media! see you :) - <span class="about-highlight">Ctrlswag</span>
+                </p>
             </div>
         </div>
     </div>
@@ -1297,8 +1355,10 @@
         const progress = document.getElementById('progress');
         const progressBar = document.getElementById('progressBar');
         const volumeSlider = document.getElementById('volumeSlider');
+        const volumeIcon = document.getElementById('volumeIcon');
         const currentTimeDisplay = document.getElementById('currentTime');
         const durationDisplay = document.getElementById('duration');
+        const durationSlider = document.getElementById('durationSlider');
         const modal = document.getElementById('confirmationModal');
         const confirmBtn = document.getElementById('confirmRedirect');
         const cancelBtn = document.getElementById('cancelRedirect');
@@ -1315,6 +1375,11 @@
         const mobileMusicModal = document.getElementById('mobileMusicModal');
         const enableMusicBtn = document.getElementById('enableMusic');
         const disableMusicBtn = document.getElementById('disableMusic');
+        const loader = document.getElementById('loader');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const redirectUrlElement = document.getElementById('redirectUrl');
+        const customCursor = document.querySelector('.custom-cursor');
 
         let redirectUrl = '';
         let isPlaying = false;
@@ -1322,6 +1387,29 @@
         let isAboutVisible = false;
         let clickCount = 0;
         let isFireEffect = false;
+        let videoLoaded = false;
+        let isMuted = false;
+        let previousVolume = 25;
+
+        // Initialize video source (replace with your actual video URL)
+        const videoSource = "https://cdn.lewd.host/sample-video.mp4";
+
+        // Custom cursor logic
+        document.addEventListener('mousemove', (e) => {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
+
+        // Add hover effect to interactive elements
+        const interactiveElements = document.querySelectorAll('button, a, input[type="range"], .music-toggle, .about-toggle');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                customCursor.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                customCursor.classList.remove('hover');
+            });
+        });
 
         // Mobile detection
         function isMobileDevice() {
@@ -1357,6 +1445,7 @@
             currentTimeDisplay.textContent = formatTime(audio.currentTime);
             if (!isNaN(audio.duration)) {
                 durationDisplay.textContent = formatTime(audio.duration);
+                durationSlider.value = (audio.currentTime / audio.duration) * 100;
             }
         }
 
@@ -1367,10 +1456,22 @@
                 musicPlayer.classList.add('visible');
                 overlay.classList.add('visible');
                 musicToggle.classList.add('active');
+                
+                // Load and show video when music player is opened
+                if (!videoLoaded) {
+                    videoPlayer.src = videoSource;
+                    videoPlayer.load();
+                    videoLoaded = true;
+                }
+                videoContainer.classList.add('visible');
             } else {
                 musicPlayer.classList.remove('visible');
                 overlay.classList.remove('visible');
                 musicToggle.classList.remove('active');
+                
+                // Hide video when music player is closed
+                videoContainer.classList.remove('visible');
+                videoPlayer.pause();
             }
         }
 
@@ -1378,15 +1479,37 @@
         closePlayer.addEventListener('click', toggleMusicPlayer);
         overlay.addEventListener('click', toggleMusicPlayer);
 
+        function toggleMute() {
+            if (isMuted) {
+                // Unmute
+                audio.volume = previousVolume / 100;
+                volumeSlider.value = previousVolume;
+                volumeIcon.classList.remove('muted');
+                isMuted = false;
+            } else {
+                // Mute
+                previousVolume = volumeSlider.value;
+                audio.volume = 0;
+                volumeSlider.value = 0;
+                volumeIcon.classList.add('muted');
+                isMuted = true;
+            }
+        }
+
+        volumeIcon.addEventListener('click', toggleMute);
+
         function togglePlayback() {
             if (isPlaying) {
                 audio.pause();
                 playIcon.classList.remove('fa-pause');
                 playIcon.classList.add('fa-play');
             } else {
-                audio.play();
-                playIcon.classList.remove('fa-play');
-                playIcon.classList.add('fa-pause');
+                audio.play().then(() => {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }).catch(e => {
+                    console.log('Audio play failed:', e);
+                });
             }
             isPlaying = !isPlaying;
         }
@@ -1406,14 +1529,27 @@
             audio.currentTime = (clickX / progressWidth) * duration;
         });
 
+        durationSlider.addEventListener('input', function() {
+            const seekTime = (this.value / 100) * audio.duration;
+            audio.currentTime = seekTime;
+        });
+
         volumeSlider.addEventListener('input', function() {
             audio.volume = this.value / 100;
+            if (this.value > 0 && isMuted) {
+                volumeIcon.classList.remove('muted');
+                isMuted = false;
+            } else if (this.value == 0 && !isMuted) {
+                volumeIcon.classList.add('muted');
+                isMuted = true;
+            }
         });
 
         socialLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 redirectUrl = this.getAttribute('data-url');
+                redirectUrlElement.textContent = redirectUrl;
                 modal.classList.add('visible');
             });
         });
@@ -1500,7 +1636,8 @@
             
             setTimeout(() => {
                 document.getElementById('statusContainer').style.opacity = '1';
-            }, 1000);
+                loader.classList.add('hidden');
+            }, 1500);
         });
 
         // Add click event to start audio if it hasn't started
