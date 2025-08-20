@@ -1,298 +1,1122 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="theme-color" content="#eeeeee" />
-  <meta name="title" content="ctrlswag" />
-  <meta name="description" content="Free Tay4lyfe" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>sigilkore | ctrlswag</title>
-  <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet" />
-  <link rel="icon" href="https://cdn.lewd.host/kZdVTbus.png" />
-  <script src="https://kit.fontawesome.com/cf16def632.js" crossorigin="anonymous" defer></script>
-  <style>
-    body{
-  background-color: #ffffff;
-  font-family: 'Poppins', sans-serif;
-  color: #fff;
-  display: fixed;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100vh;
-  background: url(https://cdn.lewd.host/vkGS06Ks.gif) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  margin: 0;
-  background-color: rgb(10, 10, 10);
-  display: grid;
-  height: 100vh;
-  margin: 0px;
-  overflow: hidden;
-  place-items: center;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ctrlswag</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700" rel="stylesheet">
+    <link rel="icon" href="https://cdn.lewd.host/Zz72bobb.jpg">
+    <script src="https://kit.fontawesome.com/cf16def632.js" crossorigin="anonymous" defer></script>
+    <style>
+        :root {
+            --primary-color: #e6e6e6;
+            --accent-color: #9d9d9d;
+            --text-color: #d8d8d8;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --glass-bg: rgba(15, 15, 15, 0.8);
+            --glass-border: rgba(60, 60, 60, 0.2);
+            --glass-shadow: rgba(0, 0, 0, 0.6);
+            --card-bg: linear-gradient(145deg, #0f0f0f, #0a0a0a);
+        }
 
-:root{
-  --white: rgb(255, 255, 255);
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-#enter {
-color: rgb(0, 0, 0);
-cursor: pointer;
-position: fixed;
-width: 800px;
-margin: 0 ;
-top:0;
-left:0;
-width:100%;
-height:100%;
-opacity: 1;
-transition: opacity 0.7s ease-in;
-font-size: 24px;
-}
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
 
-.blurpage{
-background:rgb(0 0 0/15%);
-backdrop-filter:blur(12px);
-position: fixed;
-width: 800px;
-margin: 0 ;
-top:0;
-left:0;
-width:100%;
-height:100%;
-opacity: 1;
-transition: opacity 0.7s ease-in;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
 
-.inside{
-font-size: 25px;
-color: #810000;
-margin: 0 auto;
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%,-50%);
-cursor: pointer;
-transition: all 0.1s1s ease-out;
-font-family: 'Poppins',sans-serif;
-font-weight: 550;
-}
+        .noise-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+        }
 
-.margin-content{
-  margin-top: 0vh;
-}
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            max-height: 100vh;
+        }
 
-.gradient-txt{
-  color: transparent;
-  font-size: 3rem;
-  margin-bottom: 0;
-}
+        .glass-box {
+            background: var(--glass-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            max-height: 90vh;
+        }
 
-.bio {
-  font-size: 15px;
-  margin: 0;
-  color: rgb(0, 0, 0);
-}
+        .profile-header {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
 
-.pfp {
-  border-radius: 100px;
-  width: 130px;
-  height: 130px;
-}
+        .pfp-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(80, 80, 80, 0.3);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.5s ease;
+        }
 
-.social-link {
-font-size: 20px;
-padding: 3px;
-color: rgb(250, 0, 0);
-transition: all 0.2s ease-in-out;
-background-color: transparent;
-}
+        .pfp {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(20%) contrast(110%) brightness(90%);
+        }
 
-.social-link:hover {
-color: rgb(255, 0, 0);
-background-color: transparent;
-}
+        .glitch-text {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
 
-.status {
-  border-radius: 60px;
-  max-width: 50%;
-  height: auto;
-}
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
 
-.glass-box {
-     background: rgba(0, 0, 0, 0.0);
-     border-radius: 35px;
-     padding: 80px;
-     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.0);
-     backdrop-filter: blur(0px);
-     -webkit-backdrop-filter: blur(0px);
-     -webkit-box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0.0);
-     -moz-box-shadow: 0px 0px 15px 5px rgb(255, 255, 255);
-     box-shadow: 0px 0px 15px 5px hsla(0, 4%, 20%, 0.0);
-     overflow: hidden;
-     width: 800px;
-   }
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(25, 25, 25, 0.9);
+            color: white;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
 
-@media (max-width: 400px){
-  .glass-box{
-      padding: 30px;
-  }
-}
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(80, 80, 80, 0.2);
+            background: rgba(35, 35, 35, 0.9);
+        }
 
-.footer {
-  bottom: 0;
-  position: absolute;
-  width: 100%;
+        .status-container {
+            margin-top: 1.5rem;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            max-width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
 
-}
+        .status-header {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(80, 80, 80, 0.3);
+        }
 
-h1 {
-  color: rgb(0, 0, 0);
-  font-size: 25px;
-  font-family: 'Poppins', sans-serif;
-  margin: 0px;
-  text-align: center;
-  white-space: nowrap;
-  border-radius: clamp(0.4rem, 0.75vw, 1rem);
-  background: linear-gradient(to right, var(--white), var(--white));
-  background-size: 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: background-pan 3s linear infinite;
-}
+        .discord-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            filter: brightness(0.9);
+        }
 
-.icon {
-  display: inline-block;
-  transition: transform 0.5s;
-}
+        .status-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
 
-.icon:hover {
-  transform: scale(1.2);
-}
-  </style>
+        .status-content {
+            padding: 1rem;
+            background: rgba(15, 15, 15, 0.7);
+        }
+
+        .status {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: contrast(110%) brightness(90%);
+            border-radius: 6px;
+        }
+
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20, 20, 20, 0.8);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(100, 100, 100, 0.2);
+            background: rgba(30, 30, 30, 0.9);
+        }
+
+        .music-toggle.active {
+            color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(230, 230, 230, 0.2);
+        }
+
+        .about-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(20, 20, 20, 0.8);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            font-size: 1.1rem;
+        }
+
+        .about-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(100, 100, 100, 0.2);
+            background: rgba(30, 30, 30, 0.9);
+        }
+
+        .about-toggle.active {
+            color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(230, 230, 230, 0.2);
+        }
+
+        .bio-section {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .bio-section.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .about-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .about-section.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .about-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .about-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .about-text {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .about-text::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            height: calc(100% - 16px);
+            width: 3px;
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .about-highlight {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .skill-bars {
+            margin-top: 2rem;
+        }
+
+        .skill-bar {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.7rem;
+            font-size: 0.95rem;
+        }
+
+        .skill-progress {
+            height: 8px;
+            background: rgba(100, 100, 100, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                transparent 75%, 
+                transparent
+            );
+            z-index: 1;
+            background-size: 15px 15px;
+            animation: move 2s linear infinite;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        @keyframes move {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 15px 15px;
+            }
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 120px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%) contrast(110%);
+            transition: filter 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            filter: grayscale(0%) contrast(120%);
+        }
+
+        .music-player {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 340px;
+            background: rgba(15, 15, 15, 0.95);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(80, 80, 80, 0.3);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .music-player.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .player-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(80, 80, 80, 0.3);
+        }
+
+        .player-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .close-player {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-player:hover {
+            transform: scale(1.2);
+            background: rgba(50, 50, 50, 0.5);
+            color: var(--primary-color);
+        }
+
+        .track-info {
+            text-align: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .track-title {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .track-artist {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            color: var(--text-color);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            gap: 10px;
+        }
+
+        .time-display {
+            font-size: 0.7rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            min-width: 40px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(100, 100, 100, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: var(--primary-color);
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            color: var(--primary-color);
+            background: rgba(50, 50, 50, 0.5);
+        }
+
+        .play-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 30, 30, 0.9);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            font-size: 1.1rem;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: rgba(40, 40, 40, 0.95);
+            color: var(--primary-color);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(80, 80, 80, 0.3);
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(100, 100, 100, 0.3);
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 98;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--glass-bg);
+            padding: 1.8rem;
+            border-radius: 14px;
+            text-align: center;
+            max-width: 380px;
+            width: 80%;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal.visible .modal-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.3rem;
+        }
+
+        .modal-btn {
+            padding: 0.45rem 1.3rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .modal-btn.confirm {
+            background: rgba(220, 220, 220, 0.9);
+            color: #000;
+        }
+
+        .modal-btn.cancel {
+            background: rgba(50, 50, 50, 0.9);
+            color: #fff;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.04);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .glass-box {
+                padding: 1.5rem;
+                margin: 0.5rem;
+                max-height: 95vh;
+            }
+            
+            .glitch-text {
+                font-size: 2rem;
+            }
+            
+            .social-links {
+                gap: 1rem;
+            }
+            
+            .social-link {
+                width: 42px;
+                height: 42px;
+                font-size: 1.1rem;
+            }
+            
+            .music-player {
+                width: 320px;
+            }
+            
+            .pfp-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .status-container {
+                max-width: 300px;
+            }
+            
+            .about-toggle {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .glass-box {
+                padding: 1.2rem;
+            }
+            
+            .glitch-text {
+                font-size: 1.8rem;
+            }
+            
+            .pfp-container {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .music-toggle, .about-toggle {
+                top: 15px;
+                width: 36px;
+                height: 36px;
+            }
+            
+            .status-container {
+                max-width: 280px;
+            }
+            
+            .music-player {
+                width: 300px;
+                padding: 1.2rem;
+            }
+            
+            .about-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="margin-content">
-    <div class="glass-box">
-     <!--
-      <img class="pfp" alt="profile picture" draggable="false" src="notfixed" /> 
-      -->
-      <h1>Ctrlswag</h1>
-      <p class="bio">
-        <span></span>
-      </p>
-      <div class="links">
+    <div class="noise-background"></div>
 
-        <a href="https://www.instagram.com/ctrlswag/" class="social-link" title="instagram" style="font-size:30px"><i class="icon fa-brands fa-instagram"></i></a>
-        <a href="https://www.instagram.com/ctrldope/" class="social-link" title="instagram" style="font-size:30px"><i class="icon fa-brands fa-instagram"></i></a>
-        
-      </div>
-     <img class="status" alt="discord" draggable="false" src="https://lanyard.cnrad.dev/api/1066574551510683668?bg=0F0F0F)](https://discord.com/users/1066574551510683668" />
-      </div>
-  </div>
-  <div id="enter">
-    <div id="blurthepage" class="blurpage">
-      <div class="inside">
-        <p><span class="sparkle">^_^</span></p>
-      </div>
+    <div class="music-toggle" id="musicToggle">
+        <i class="fas fa-music"></i>
     </div>
-  </div>
-  <audio loop="true" id="audio">
-    <source src="https://cdn.lewd.host/cq6Nujw1.mp3" type="audio/mp3">
-  </audio>
+
+    <div class="about-toggle" id="aboutToggle">
+        <i class="fas fa-user"></i>
+    </div>
+
+    <div class="music-player" id="musicPlayer">
+        <div class="player-header">
+            <div class="player-title">Now Playing</div>
+            <button class="close-player" id="closePlayer">✕</button>
+        </div>
+        <div class="track-info">
+            <div class="track-title">Latest Release</div>
+            <div class="track-artist">Ctrlswag</div>
+        </div>
+        <div class="progress-container">
+            <div class="time-display" id="currentTime">0:00</div>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="time-display" id="duration">0:00</div>
+        </div>
+        <div class="controls">
+            <button class="control-btn" id="prevButton">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="play-btn" id="playButton">
+                <i class="fas fa-pause" id="playIcon"></i>
+            </button>
+            <button class="control-btn" id="nextButton">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+        <div class="volume-control">
+            <i class="fas fa-volume-up"></i>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="25">
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <h3>Leave this site?</h3>
+            <p>You are about to be redirected to Instagram. Do you wish to continue?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="confirmRedirect">Yes</button>
+                <button class="modal-btn cancel" id="cancelRedirect">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="glass-box">
+            <div class="bio-section" id="bioSection">
+                <div class="profile-header">
+                    <div class="pfp-container">
+                        <img class="pfp" alt="Ctrlswag" src="https://cdn.lewd.host/Zz72bobb.jpg">
+                    </div>
+                    <h1 class="glitch-text">Ctrlswag</h1>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Instagram" data-url="https://www.instagram.com/ctrlswag/">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Instagram" data-url="https://www.instagram.com/ctrldope/">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+
+                <div class="status-container" id="statusContainer">
+                    <div class="status-header">
+                        <svg class="discord-logo" viewBox="0 0 245 240" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M104.4 103.9c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1.1-6.1-4.5-11.1-10.2-11.1zM140.9 103.9c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1s-4.5-11.1-10.2-11.1z" fill="currentColor"/>
+                            <path d="M189.5 20h-134C44.2 20 35 29.2 35 40.6v135.2c0 11.4 9.2 20.6 20.5 20.6h113.4l-5.3-18.5 12.8 11.9 12.1 11.2 21.5 19V40.6c0-11.4-9.2-20.6-20.5-20.6zm-38.6 130.6s-3.6-4.3-6.6-8.1c13.1-3.7 18.1-11.9 18.1-11.9-4.1 2.7-8 4.6-11.5 5.9-5 2.1-9.8 3.5-14.5 4.3-9.6 1.8-18.4 1.3-25.9-.1-5.7-1.1-10.6-2.7-14.7-4.3-2.3-.9-4.8-2-7.3-3.4-.3-.2-.6-.3-.9-.5-.2-.1-.3-.2-.4-.3-1.8-1-2.8-1.7-2.8-1.7s4.8 8 17.5 11.8c-3 3.8-6.7 8.3-6.7 8.3-22.1-.7-30.5-15.2-30.5-15.2 0-32.2 14.4-58.3 14.4-58.3 14.4-10.8 28.1-10.5 28.1-10.5l1 1.2c-18 5.2-26.3 13.1-26.3 13.1s2.2-1.2 5.9-2.9c10.7-4.7 19.2-6 22.7-6.3.6-.1 1.1-.2 1.7-.2 6.1-.8 13-1 20.2-.2 9.5 1.1 19.7 3.9 30.1 9.6 0 0-7.9-7.5-24.9-12.7l1.4-1.6s13.7-.3 28.1 10.5c0 0 14.4 26.1 14.4 58.3 0 0-8.5 14.5-30.6 15.2z" fill="currentColor"/>
+                        </svg>
+                        <div class="status-title">Discord Status</div>
+                    </div>
+                    <div class="status-content">
+                        <img class="status" alt="Discord Status" src="https://lanyard.cnrad.dev/api/1333142019693871195?bg=0F0F0F&borderRadius=5&hideDiscrim=true&animate=true&idleMessage=Probably%20doing%20something%20else..." onload="document.getElementById('statusContainer').style.opacity = '1'">
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section" id="aboutSection">
+                <h2 class="about-title">About Me</h2>
+                
+                <p class="about-text">
+                    Hi, I'm <span class="about-highlight">Ctrlswag</span>, text here
+                </p>
+                
+                <p class="about-text">
+                    text here
+                </p>
+                
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/300x200/0F0F0F/9d9d9d?text=Studio" alt="test">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://via.placeholder.com/300x200/0F0F0F/9d9d9d?text=Music" alt="test">
+                    </div>
+                </div>
+                
+                <div class="skill-bars">
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>rapist</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>coder</span>
+                            <span>0%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>skid</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>thug</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio loop id="audio">
+        <source src="https://cdn.lewd.host/cq6Nujw1.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('playButton');
+        const playIcon = document.getElementById('playIcon');
+        const progress = document.getElementById('progress');
+        const progressBar = document.getElementById('progressBar');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const durationDisplay = document.getElementById('duration');
+        const modal = document.getElementById('confirmationModal');
+        const confirmBtn = document.getElementById('confirmRedirect');
+        const cancelBtn = document.getElementById('cancelRedirect');
+        const socialLinks = document.querySelectorAll('.social-link');
+        const musicToggle = document.getElementById('musicToggle');
+        const musicPlayer = document.getElementById('musicPlayer');
+        const closePlayer = document.getElementById('closePlayer');
+        const overlay = document.getElementById('overlay');
+        const aboutToggle = document.getElementById('aboutToggle');
+        const bioSection = document.getElementById('bioSection');
+        const aboutSection = document.getElementById('aboutSection');
+
+        let redirectUrl = '';
+        let isPlaying = false;
+        let isPlayerVisible = false;
+        let isAboutVisible = false;
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateTimeDisplays() {
+            currentTimeDisplay.textContent = formatTime(audio.currentTime);
+            if (!isNaN(audio.duration)) {
+                durationDisplay.textContent = formatTime(audio.duration);
+            }
+        }
+
+        function toggleMusicPlayer() {
+            isPlayerVisible = !isPlayerVisible;
+            
+            if (isPlayerVisible) {
+                musicPlayer.classList.add('visible');
+                overlay.classList.add('visible');
+                musicToggle.classList.add('active');
+            } else {
+                musicPlayer.classList.remove('visible');
+                overlay.classList.remove('visible');
+                musicToggle.classList.remove('active');
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusicPlayer);
+        closePlayer.addEventListener('click', toggleMusicPlayer);
+        overlay.addEventListener('click', toggleMusicPlayer);
+
+        function togglePlayback() {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            } else {
+                audio.play();
+                playIcon.classList.remove('fa-play');
+                playIcon.classList.add('fa-pause');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        playBtn.addEventListener('click', togglePlayback);
+
+        audio.addEventListener('timeupdate', function() {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = `${progressPercent}%`;
+            updateTimeDisplays();
+        });
+
+        progressBar.addEventListener('click', function(e) {
+            const progressWidth = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / progressWidth) * duration;
+        });
+
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value / 100;
+        });
+
+        socialLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                redirectUrl = this.getAttribute('data-url');
+                modal.classList.add('visible');
+            });
+        });
+
+        confirmBtn.addEventListener('click', function() {
+            window.open(redirectUrl, '_blank');
+            modal.classList.remove('visible');
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            modal.classList.remove('visible');
+        });
+
+        aboutToggle.addEventListener('click', function() {
+            isAboutVisible = !isAboutVisible;
+            
+            if (isAboutVisible) {
+                // Fade out bio section first
+                bioSection.classList.add('hidden');
+                // Wait for fade out to complete before showing about section
+                setTimeout(() => {
+                    aboutSection.classList.add('visible');
+                    aboutToggle.classList.add('active');
+                }, 500);
+            } else {
+                // Fade out about section first
+                aboutSection.classList.remove('visible');
+                aboutToggle.classList.remove('active');
+                // Wait for fade out to complete before showing bio section
+                setTimeout(() => {
+                    bioSection.classList.remove('hidden');
+                }, 500);
+            }
+        });
+
+        window.addEventListener('load', function() {
+            audio.volume = 0.25;
+            volumeSlider.value = 25;
+            
+            const playAudio = () => {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }).catch(e => {
+                    console.log('Audio play failed:', e);
+                });
+            };
+            
+            playAudio();
+            
+            audio.addEventListener('loadedmetadata', function() {
+                updateTimeDisplays();
+            });
+            
+            setTimeout(() => {
+                document.getElementById('statusContainer').style.opacity = '1';
+            }, 1000);
+        });
+
+        document.addEventListener('touchstart', function() {
+            if (!isPlaying && audio.paused) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }).catch(e => {
+                    console.log('Audio play on touch failed:', e);
+                });
+            }
+        }, { once: true });
+    </script>
 </body>
 </html>
-<script>
-  var audio = document.getElementById("audio");
-
-document.getElementById("enter").addEventListener("click", function () {
-  const enterButton = document.getElementById("enter");
-  enterButton.style.opacity = '0';
-  enterButton.addEventListener("transitionend", () => enterButton.remove());
-
-  if (typeof window.orientation === 'undefined') {
-    audio.volume = 0.3;
-    audio.play();
-  }
-});
-
-audio.onended = function () {
-  audio.play();
-};
-
-let volume = document.querySelector("#volume");
-volume.removeEventListener('change', volumeEvent);
-volume.addEventListener('change', volumeEvent);
-
-var domain = window.location.hostname;
-if (domain !== "extort.wiki") {
-  var volumeElement = document.getElementById("volume");
-  volumeElement.parentNode.removeChild(volumeElement);
-}
-
-var TxtType = function (el, toRotate, period) {
-  this.toRotate = toRotate;
-  this.el = el;
-  this.loopNum = 0;
-  this.period = parseInt(period, 10) || 2000;
-  this.txt = "";
-  this.tick();
-  this.isDeleting = false;
-};
-
-TxtType.prototype.tick = function () {
-  var i = this.loopNum % this.toRotate.length;
-  var fullTxt = this.toRotate[i];
-
-  if (this.isDeleting) {
-    this.txt = fullTxt.substring(0, this.txt.length - 1);
-  } else {
-    this.txt = fullTxt.substring(0, this.txt.length + 1);
-  }
-
-  this.el.innerHTML = "<span class=\"wrap\">" + this.txt + "</span>";
-
-  var that = this;
-  var delta = 200 - Math.random() * 100;
-
-  if (this.isDeleting) {
-    delta /= 2;
-  }
-
-  if (!this.isDeleting && this.txt === fullTxt) {
-    delta = this.period;
-    this.isDeleting = true;
-  } else if (this.isDeleting && this.txt === "") {
-    this.isDeleting = false;
-    this.loopNum++;
-    delta = 500;
-  }
-
-  setTimeout(function () {
-    that.tick();
-  }, delta);
-};
-
-window.onload = function () {
-  var elements = document.getElementsByClassName("typewrite");
-
-  for (var i = 0; i < elements.length; i++) {
-    var toRotate = elements[i].getAttribute("data-type");
-    var period = elements[i].getAttribute("data-period");
-
-    if (toRotate) {
-      new TxtType(elements[i], JSON.parse(toRotate), period);
-    }
-  }
-
-  var css = document.createElement("style");
-  css.type = "text/css";
-  css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
-  document.body.appendChild(css);
-};
-</script>
