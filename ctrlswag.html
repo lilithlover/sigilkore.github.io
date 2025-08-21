@@ -75,7 +75,7 @@
             width: 100%;
             height: 100%;
             z-index: -3;
-            filter: blur(5px) brightness(0.7);
+            filter: blur(12px) brightness(0.7);
         }
 
         .noise-background {
@@ -757,6 +757,27 @@
             z-index: 91;
         }
 
+        .resize-handle {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 12px;
+            height: 12px;
+            cursor: nwse-resize;
+            z-index: 91;
+        }
+
+        .resize-handle::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
         .overlay {
             position: fixed;
             top: 0;
@@ -1083,8 +1104,8 @@
             <button class="close-player" id="closePlayer">✕</button>
         </div>
         <div class="track-info">
-            <div class="track-title">Latest Release</div>
-            <div class="track-artist">Ctrlswag</div>
+            <div class="track-title">MALICE-DOLL</div>
+            <div class="track-artist">Hi-c</div>
         </div>
         <div class="progress-container">
             <div class="time-display" id="currentTime">0:00</div>
@@ -1125,7 +1146,8 @@
     <!-- Video Popout Element -->
     <div class="video-popout" id="videoPopout">
         <button class="close-popout" id="closePopout">✕</button>
-        <video id="popoutVideo" muted>
+        <div class="resize-handle" id="resizeHandle"></div>
+        <video id="popoutVideo" muted loop>
             <source src="" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -1195,8 +1217,7 @@
                 <h2 class="about-title">About Me</h2>
                 
                 <p class="about-text">
-                    Hi, I'm <span class="about-highlight">Ctrlswag</span>, I love music please don't hesitate to send me songs or talk about music! 
-                </p>
+                    Hi, I'm <span class="about-highlight">Ctrlswag</span> aka <span class="about-highlight">Kuromixanax</span>, I love music please don't hesitate to send me songs or talk about music! 
                 
                 <p class="about-text">
                     I specialize in marketing and have been doing so for a long time. I am perfect at customer service and managing projects. 
@@ -1218,7 +1239,7 @@
     </audio>
 
     <script>
-        // Three.js Background with Exploding Geometry
+        // Three.js Background with Planets
         function initThreeJS() {
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -1230,156 +1251,103 @@
             renderer.setClearColor(0x000000, 0);
             document.getElementById('threejs-background').appendChild(renderer.domElement);
             
-            camera.position.z = 5;
+            camera.position.z = 50;
             
-            const geometries = [
-                new THREE.DodecahedronGeometry(0.6, 0),
-                new THREE.IcosahedronGeometry(0.6, 1),
-                new THREE.OctahedronGeometry(0.6, 0),
-                new THREE.TorusKnotGeometry(0.4, 0.1, 100, 16),
-                new THREE.ConeGeometry(0.4, 1, 8),
-                new THREE.TetrahedronGeometry(0.6, 0),
-                new THREE.SphereGeometry(0.5, 12, 8),
-                new THREE.TorusGeometry(0.5, 0.2, 16, 100)
-            ];
+            // Create planets
+            const planetGeometry = new THREE.SphereGeometry(1, 32, 32);
+            const planetMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0x888888,
+                wireframe: true
+            });
             
-            const materials = [
-                new THREE.MeshBasicMaterial({ 
-                    color: 0xffffff, 
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.07
-                }),
-                new THREE.MeshBasicMaterial({ 
-                    color: 0xaaaaaa, 
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.05
-                }),
-                new THREE.MeshBasicMaterial({ 
-                    color: 0x888888, 
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.06
-                })
-            ];
+            const planets = [];
+            const planetCount = 8;
             
-            const objects = [];
-            const explodingObjects = [];
-            
-            function createObject() {
-                const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-                const material = materials[Math.floor(Math.random() * materials.length)].clone();
-                
-                const mesh = new THREE.Mesh(geometry, material);
-                
-                mesh.position.x = (Math.random() - 0.5) * 10;
-                mesh.position.y = (Math.random() - 0.5) * 10;
-                mesh.position.z = (Math.random() - 0.5) * 10;
-                
-                mesh.rotation.x = Math.random() * Math.PI;
-                mesh.rotation.y = Math.random() * Math.PI;
-                mesh.rotation.z = Math.random() * Math.PI;
-                
-                const scale = Math.random() * 0.8 + 0.5;
-                mesh.scale.set(scale, scale, scale);
-                
-                mesh.velocity = new THREE.Vector3(
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01
+            for (let i = 0; i < planetCount; i++) {
+                const size = Math.random() * 3 + 1;
+                const planet = new THREE.Mesh(
+                    new THREE.SphereGeometry(size, 32, 32),
+                    planetMaterial.clone()
                 );
                 
-                mesh.rotationSpeed = new THREE.Vector3(
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01
-                );
+                // Position planets in a interesting arrangement
+                const distance = 15 + Math.random() * 30;
+                const angle = (i / planetCount) * Math.PI * 2;
                 
-                scene.add(mesh);
-                objects.push(mesh);
+                planet.position.x = Math.cos(angle) * distance;
+                planet.position.y = Math.sin(angle) * distance * 0.3;
+                planet.position.z = Math.sin(angle) * distance * 0.5;
                 
-                return mesh;
+                // Random rotation
+                planet.rotation.x = Math.random() * Math.PI;
+                planet.rotation.y = Math.random() * Math.PI;
+                
+                // Add some movement properties
+                planet.userData = {
+                    speed: (Math.random() * 0.2 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
+                    rotationSpeed: new THREE.Vector3(
+                        (Math.random() - 0.5) * 0.01,
+                        (Math.random() - 0.5) * 0.01,
+                        (Math.random() - 0.5) * 0.01
+                    )
+                };
+                
+                scene.add(planet);
+                planets.push(planet);
             }
             
-            for (let i = 0; i < 15; i++) {
-                createObject();
+            // Add some stars in the background
+            const starGeometry = new THREE.BufferGeometry();
+            const starCount = 2000;
+            const positions = new Float32Array(starCount * 3);
+            
+            for (let i = 0; i < starCount; i++) {
+                const i3 = i * 3;
+                positions[i3] = (Math.random() - 0.5) * 2000;
+                positions[i3 + 1] = (Math.random() - 0.5) * 2000;
+                positions[i3 + 2] = (Math.random() - 0.5) * 2000;
             }
             
-            function explodeObject(mesh) {
-                mesh.exploding = true;
-                mesh.explodeProgress = 0;
-                mesh.originalScale = mesh.scale.clone();
-                
-                const explosionPower = 0.05 + Math.random() * 0.05;
-                mesh.explosionVelocity = new THREE.Vector3(
-                    (Math.random() - 0.5) * explosionPower,
-                    (Math.random() - 0.5) * explosionPower,
-                    (Math.random() - 0.5) * explosionPower
-                );
-                
-                explodingObjects.push(mesh);
-                
-                const index = objects.indexOf(mesh);
-                if (index > -1) {
-                    objects.splice(index, 1);
-                }
-            }
+            starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const starMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.7,
+                transparent: true
+            });
             
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+            
+            // Animation function
             function animate() {
                 requestAnimationFrame(animate);
                 
-                objects.forEach(mesh => {
-                    mesh.position.add(mesh.velocity);
+                // Animate planets
+                planets.forEach(planet => {
+                    planet.rotation.x += planet.userData.rotationSpeed.x;
+                    planet.rotation.y += planet.userData.rotationSpeed.y;
+                    planet.rotation.z += planet.userData.rotationSpeed.z;
                     
-                    mesh.rotation.x += mesh.rotationSpeed.x;
-                    mesh.rotation.y += mesh.rotationSpeed.y;
-                    mesh.rotation.z += mesh.rotationSpeed.z;
-                    
-                    if (Math.abs(mesh.position.x) > 5) mesh.velocity.x *= -1;
-                    if (Math.abs(mesh.position.y) > 5) mesh.velocity.y *= -1;
-                    if (Math.abs(mesh.position.z) > 5) mesh.velocity.z *= -1;
+                    // Slowly move planets
+                    planet.position.x += Math.sin(Date.now() * 0.0001 * planet.userData.speed) * 0.05;
+                    planet.position.y += Math.cos(Date.now() * 0.0001 * planet.userData.speed) * 0.03;
                 });
                 
-                for (let i = explodingObjects.length - 1; i >= 0; i--) {
-                    const mesh = explodingObjects[i];
-                    
-                    mesh.explodeProgress += 0.02;
-                    mesh.position.add(mesh.explosionVelocity);
-                    mesh.explosionVelocity.multiplyScalar(1.05);
-                    mesh.material.opacity = Math.max(0, 0.07 * (1 - mesh.explodeProgress));
-                    
-                    const scaleFactor = 1 - mesh.explodeProgress;
-                    mesh.scale.set(
-                        mesh.originalScale.x * scaleFactor,
-                        mesh.originalScale.y * scaleFactor,
-                        mesh.originalScale.z * scaleFactor
-                    );
-                    
-                    if (mesh.explodeProgress >= 1) {
-                        scene.remove(mesh);
-                        explodingObjects.splice(i, 1);
-                    }
-                }
-                
-                if (Math.random() < 0.01 && objects.length + explodingObjects.length < 30) {
-                    createObject();
-                }
-                
-                if (Math.random() < 0.005 && objects.length > 10) {
-                    const randomIndex = Math.floor(Math.random() * objects.length);
-                    explodeObject(objects[randomIndex]);
-                }
+                // Slowly rotate stars
+                stars.rotation.x += 0.0001;
+                stars.rotation.y += 0.0001;
                 
                 renderer.render(scene, camera);
             }
             
+            // Handle window resize
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
             
+            // Start animation
             animate();
         }
 
@@ -1418,6 +1386,7 @@
         const videoPopout = document.getElementById('videoPopout');
         const popoutVideo = document.getElementById('popoutVideo');
         const closePopout = document.getElementById('closePopout');
+        const resizeHandle = document.getElementById('resizeHandle');
         const redirectUrlElement = document.getElementById('redirectUrl');
         const customCursor = document.querySelector('.custom-cursor');
 
@@ -1433,6 +1402,9 @@
         let videoEnabled = true;
         let popoutClickCount = 0;
         let lastPopoutClickTime = 0;
+        let isDragging = false;
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight, startLeft, startTop;
         let mouseX = 0;
         let mouseY = 0;
 
@@ -1449,6 +1421,26 @@
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
+            
+            if (isDragging) {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                videoPopout.style.left = (startLeft + dx) + 'px';
+                videoPopout.style.top = (startTop + dy) + 'px';
+            }
+            
+            if (isResizing) {
+                const dx = e.clientX - startX;
+                const newWidth = Math.max(150, startWidth + dx);
+                const newHeight = Math.max(90, startHeight + (dx * 0.6)); // Maintain aspect ratio
+                videoPopout.style.width = newWidth + 'px';
+                videoPopout.style.height = newHeight + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            isResizing = false;
         });
 
         // Start the cursor animation
@@ -1518,6 +1510,8 @@
                 
                 if (videoEnabled) {
                     videoContainer.classList.add('visible');
+                    // Sync video with audio
+                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
                     videoPlayer.play().catch(e => console.log('Video play failed:', e));
                     
                     // Hide popout if visible
@@ -1525,26 +1519,62 @@
                     popoutVideo.pause();
                 }
             } else {
-                musicPlayer.classList.remove('visible');
-                overlay.classList.remove('visible');
-                musicToggle.classList.remove('active');
+                // First fade out the video in the music player
+                videoContainer.style.opacity = '0';
                 
-                // Handle video popout when closing music player
-                if (videoEnabled && videoLoaded) {
-                    const currentTime = videoPlayer.currentTime;
-                    videoContainer.classList.remove('visible');
-                    videoPlayer.pause();
+                setTimeout(() => {
+                    musicPlayer.classList.remove('visible');
+                    overlay.classList.remove('visible');
+                    musicToggle.classList.remove('active');
                     
-                    // Show popout video
-                    if (!popoutVideo.src) {
-                        popoutVideo.src = videoSource;
+                    // Handle video popout when closing music player
+                    if (videoEnabled && videoLoaded) {
+                        const currentTime = videoPlayer.currentTime;
+                        videoContainer.classList.remove('visible');
+                        videoContainer.style.opacity = '1';
+                        videoPlayer.pause();
+                        
+                        // Show popout video with smooth transition
+                        if (!popoutVideo.src) {
+                            popoutVideo.src = videoSource;
+                        }
+                        popoutVideo.currentTime = currentTime;
+                        videoPopout.style.opacity = '0';
+                        videoPopout.style.transform = 'translate(0, 0) scale(0.8)';
+                        videoPopout.classList.add('visible');
+                        
+                        // Animate the popout appearance
+                        setTimeout(() => {
+                            videoPopout.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            videoPopout.style.opacity = '1';
+                            videoPopout.style.transform = 'translate(0, 0) scale(1)';
+                            popoutVideo.play().catch(e => console.log('Popout video play failed:', e));
+                        }, 10);
                     }
-                    popoutVideo.currentTime = currentTime;
-                    videoPopout.classList.add('visible');
-                    popoutVideo.play().catch(e => console.log('Popout video play failed:', e));
-                }
+                }, 300);
             }
         }
+
+        // Make video popout draggable
+        videoPopout.addEventListener('mousedown', function(e) {
+            if (e.target !== resizeHandle) {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startLeft = videoPopout.offsetLeft;
+                startTop = videoPopout.offsetTop;
+            }
+        });
+
+        // Make video popout resizable
+        resizeHandle.addEventListener('mousedown', function(e) {
+            e.stopPropagation();
+            isResizing = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = parseInt(document.defaultView.getComputedStyle(videoPopout).width, 10);
+            startHeight = parseInt(document.defaultView.getComputedStyle(videoPopout).height, 10);
+        });
 
         // Close popout video
         closePopout.addEventListener('click', function(e) {
@@ -1554,7 +1584,9 @@
         });
 
         // Triple click to disable video
-        videoPopout.addEventListener('click', function() {
+        videoPopout.addEventListener('click', function(e) {
+            if (e.target === closePopout || e.target === resizeHandle) return;
+            
             const now = Date.now();
             if (now - lastPopoutClickTime > 300) {
                 popoutClickCount = 0;
@@ -1605,12 +1637,25 @@
         function togglePlayback() {
             if (isPlaying) {
                 audio.pause();
+                videoPlayer.pause();
+                popoutVideo.pause();
                 playIcon.classList.remove('fa-pause');
                 playIcon.classList.add('fa-play');
             } else {
                 audio.play().then(() => {
                     playIcon.classList.remove('fa-play');
                     playIcon.classList.add('fa-pause');
+                    
+                    // Sync video with audio
+                    if (videoEnabled) {
+                        if (isPlayerVisible) {
+                            videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
+                            videoPlayer.play().catch(e => console.log('Video play failed:', e));
+                        } else if (videoPopout.classList.contains('visible')) {
+                            popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
+                            popoutVideo.play().catch(e => console.log('Popout video play failed:', e));
+                        }
+                    }
                 }).catch(e => {
                     console.log('Audio play failed:', e);
                 });
@@ -1624,6 +1669,15 @@
             const progressPercent = (audio.currentTime / audio.duration) * 100;
             progress.style.width = `${progressPercent}%`;
             updateTimeDisplays();
+            
+            // Keep video in sync with audio
+            if (videoEnabled && isPlaying) {
+                if (isPlayerVisible) {
+                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
+                } else if (videoPopout.classList.contains('visible')) {
+                    popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
+                }
+            }
         });
 
         progressBar.addEventListener('click', function(e) {
@@ -1631,11 +1685,29 @@
             const clickX = e.offsetX;
             const duration = audio.duration;
             audio.currentTime = (clickX / progressWidth) * duration;
+            
+            // Sync video with new audio position
+            if (videoEnabled) {
+                if (isPlayerVisible) {
+                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
+                } else if (videoPopout.classList.contains('visible')) {
+                    popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
+                }
+            }
         });
 
         durationSlider.addEventListener('input', function() {
             const seekTime = (this.value / 100) * audio.duration;
             audio.currentTime = seekTime;
+            
+            // Sync video with new audio position
+            if (videoEnabled) {
+                if (isPlayerVisible) {
+                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
+                } else if (videoPopout.classList.contains('visible')) {
+                    popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
+                }
+            }
         });
 
         volumeSlider.addEventListener('input', function() {
