@@ -258,7 +258,7 @@
             max-width: 340px;
             margin-left: auto;
             margin-right: auto;
-            opacity: 0;
+            opacity: 1;
             transition: opacity 1s ease;
         }
 
@@ -297,10 +297,19 @@
             border-radius: 6px;
         }
 
-        .music-toggle {
+        /* Navigation Buttons */
+        .nav-buttons {
             position: fixed;
             top: 20px;
-            left: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        .music-toggle, .menu-toggle, .about-toggle {
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -313,54 +322,38 @@
             transition: all 0.3s ease;
             border: 1px solid rgba(100, 100, 100, 0.3);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-            z-index: 100;
+            pointer-events: auto;
+            margin: 0 10px;
         }
 
-        .music-toggle:hover {
+        .music-toggle:hover, .menu-toggle:hover, .about-toggle:hover {
             transform: scale(1.1);
             box-shadow: 0 0 20px rgba(100, 100, 100, 0.2);
             background: rgba(30, 30, 30, 0.9);
         }
 
-        .music-toggle.active {
+        .music-toggle.active, .about-toggle.active {
             color: var(--primary-color);
             box-shadow: 0 0 15px rgba(230, 230, 230, 0.2);
+        }
+
+        .music-toggle {
+            position: absolute;
+            left: 20px;
+        }
+
+        .menu-toggle {
+            position: relative;
         }
 
         .about-toggle {
-            position: fixed;
-            top: 20px;
+            position: absolute;
             right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(20, 20, 20, 0.8);
-            color: white;
-            cursor: none;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(100, 100, 100, 0.3);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            font-size: 1.1rem;
-        }
-
-        .about-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(100, 100, 100, 0.2);
-            background: rgba(30, 30, 30, 0.9);
-        }
-
-        .about-toggle.active {
-            color: var(--primary-color);
-            box-shadow: 0 0 15px rgba(230, 230, 230, 0.2);
         }
 
         .bio-section {
             opacity: 1;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s ease;
         }
 
         .bio-section.hidden {
@@ -377,7 +370,7 @@
             padding: 2rem;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s ease;
             overflow-y: auto;
             text-align: left;
             display: flex;
@@ -472,6 +465,7 @@
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         .close-player {
@@ -683,101 +677,6 @@
             transform: scale(1.2);
         }
 
-        .video-container {
-            width: 100%;
-            margin-top: 1rem;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            background: rgba(10, 10, 10, 0.4);
-            display: none;
-            height: 0;
-            transition: height 0.3s ease;
-        }
-
-        .video-container.visible {
-            display: block;
-            height: 180px;
-        }
-
-        #videoPlayer {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        /* Video Popout Styles */
-        .video-popout {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
-            height: 120px;
-            background: rgba(15, 15, 15, 0.9);
-            border-radius: 8px;
-            overflow: hidden;
-            z-index: 90;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(80, 80, 80, 0.3);
-            transition: all 0.3s ease;
-            display: none;
-        }
-
-        .video-popout.visible {
-            display: block;
-        }
-
-        .video-popout.minimized {
-            transform: scale(0.8);
-            opacity: 0.7;
-        }
-
-        #popoutVideo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .close-popout {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: none;
-            z-index: 91;
-        }
-
-        .resize-handle {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 12px;
-            height: 12px;
-            cursor: nwse-resize;
-            z-index: 91;
-        }
-
-        .resize-handle::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            width: 8px;
-            height: 8px;
-            border-right: 2px solid rgba(255, 255, 255, 0.5);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-        }
-
         .overlay {
             position: fixed;
             top: 0;
@@ -848,6 +747,7 @@
             background: rgba(20, 20, 20, 0.5);
             border-radius: 6px;
             margin-bottom: 1rem;
+            font-family: monospace;
         }
 
         .modal-buttons {
@@ -855,6 +755,7 @@
             justify-content: center;
             gap: 1rem;
             margin-top: 1.3rem;
+            z-index: 1001;
         }
 
         .modal-btn {
@@ -1000,20 +901,19 @@
                 max-width: 300px;
             }
             
-            .about-toggle {
-                width: 40px;
-                height: 40px;
+            .nav-buttons {
+                justify-content: space-between;
+                padding: 0 20px;
             }
             
-            .video-container.visible {
-                height: 150px;
-            }
-            
-            .video-popout {
-                width: 160px;
-                height: 100px;
-                bottom: 15px;
-                right: 15px;
+            .music-toggle, .menu-toggle, .about-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+                margin: 0 5px;
+                position: relative;
+                left: auto;
+                right: auto;
             }
         }
 
@@ -1031,10 +931,10 @@
                 height: 80px;
             }
             
-            .music-toggle, .about-toggle {
-                top: 15px;
-                width: 36px;
-                height: 36px;
+            .music-toggle, .menu-toggle, .about-toggle {
+                width: 34px;
+                height: 34px;
+                font-size: 0.8rem;
             }
             
             .status-container {
@@ -1050,15 +950,8 @@
                 padding: 1.5rem;
             }
             
-            .video-container.visible {
-                height: 130px;
-            }
-            
-            .video-popout {
-                width: 140px;
-                height: 90px;
-                bottom: 10px;
-                right: 10px;
+            .nav-buttons {
+                padding: 0 15px;
             }
         }
 
@@ -1077,6 +970,23 @@
                 font-size: 1.5rem;
                 margin-bottom: 1rem;
             }
+            
+            .glass-box {
+                padding: 1.5rem;
+                max-height: 95vh;
+            }
+            
+            .profile-header {
+                margin-bottom: 1rem;
+            }
+            
+            .social-links {
+                margin: 1rem 0;
+            }
+            
+            .status-container {
+                margin-top: 1rem;
+            }
         }
     </style>
 </head>
@@ -1090,12 +1000,16 @@
     <div id="threejs-background"></div>
     <div class="noise-background"></div>
 
-    <div class="music-toggle" id="musicToggle">
-        <i class="fas fa-music"></i>
-    </div>
-
-    <div class="about-toggle" id="aboutToggle">
-        <i class="fas fa-user"></i>
+    <div class="nav-buttons">
+        <div class="music-toggle" id="musicToggle">
+            <i class="fas fa-music"></i>
+        </div>
+        <div class="menu-toggle" id="menuToggle" title="xanax.baby">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="about-toggle" id="aboutToggle">
+            <i class="fas fa-user"></i>
+        </div>
     </div>
 
     <div class="music-player" id="musicPlayer">
@@ -1134,23 +1048,6 @@
             </div>
             <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="25">
         </div>
-        
-        <div class="video-container" id="videoContainer">
-            <video id="videoPlayer" muted>
-                <source src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </div>
-
-    <!-- Video Popout Element -->
-    <div class="video-popout" id="videoPopout">
-        <button class="close-popout" id="closePopout">✕</button>
-        <div class="resize-handle" id="resizeHandle"></div>
-        <video id="popoutVideo" muted loop>
-            <source src="" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
     </div>
 
     <div class="overlay" id="overlay"></div>
@@ -1218,6 +1115,7 @@
                 
                 <p class="about-text">
                     Hi, I'm <span class="about-highlight">Ctrlswag</span> aka <span class="about-highlight">Kuromixanax</span>, I love music please don't hesitate to send me songs or talk about music! 
+                </p>
                 
                 <p class="about-text">
                     I specialize in marketing and have been doing so for a long time. I am perfect at customer service and managing projects. 
@@ -1239,39 +1137,37 @@
     </audio>
 
     <script>
-        // Three.js Background with Planets
+        // Optimized Three.js Background with reduced complexity
         function initThreeJS() {
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ 
                 alpha: true,
-                antialias: true 
+                antialias: false // Disable antialiasing for performance
             });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setClearColor(0x000000, 0);
+            renderer.setPixelRatio(window.devicePixelRatio > 1 ? 1.5 : 1); // Limit pixel ratio for performance
             document.getElementById('threejs-background').appendChild(renderer.domElement);
             
             camera.position.z = 50;
             
-            // Create planets
-            const planetGeometry = new THREE.SphereGeometry(1, 32, 32);
+            // Create planets with reduced complexity
+            const planetGeometry = new THREE.SphereGeometry(1, 16, 16); // Reduced segments
             const planetMaterial = new THREE.MeshBasicMaterial({ 
                 color: 0x888888,
                 wireframe: true
             });
             
             const planets = [];
-            const planetCount = 8;
+            const planetCount = 5; // Reduced number of planets
             
             for (let i = 0; i < planetCount; i++) {
-                const size = Math.random() * 3 + 1;
-                const planet = new THREE.Mesh(
-                    new THREE.SphereGeometry(size, 32, 32),
-                    planetMaterial.clone()
-                );
+                const size = Math.random() * 2 + 1;
+                const planet = new THREE.Mesh(planetGeometry, planetMaterial.clone());
                 
                 // Position planets in a interesting arrangement
-                const distance = 15 + Math.random() * 30;
+                const distance = 15 + Math.random() * 25;
                 const angle = (i / planetCount) * Math.PI * 2;
                 
                 planet.position.x = Math.cos(angle) * distance;
@@ -1284,11 +1180,11 @@
                 
                 // Add some movement properties
                 planet.userData = {
-                    speed: (Math.random() * 0.2 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
+                    speed: (Math.random() * 0.1 + 0.05) * (Math.random() > 0.5 ? 1 : -1),
                     rotationSpeed: new THREE.Vector3(
-                        (Math.random() - 0.5) * 0.01,
-                        (Math.random() - 0.5) * 0.01,
-                        (Math.random() - 0.5) * 0.01
+                        (Math.random() - 0.5) * 0.005,
+                        (Math.random() - 0.5) * 0.005,
+                        (Math.random() - 0.5) * 0.005
                     )
                 };
                 
@@ -1296,48 +1192,56 @@
                 planets.push(planet);
             }
             
-            // Add some stars in the background
+            // Add fewer stars for better performance
             const starGeometry = new THREE.BufferGeometry();
-            const starCount = 2000;
+            const starCount = 800; // Reduced star count
             const positions = new Float32Array(starCount * 3);
             
             for (let i = 0; i < starCount; i++) {
                 const i3 = i * 3;
-                positions[i3] = (Math.random() - 0.5) * 2000;
-                positions[i3 + 1] = (Math.random() - 0.5) * 2000;
-                positions[i3 + 2] = (Math.random() - 0.5) * 2000;
+                positions[i3] = (Math.random() - 0.5) * 1500;
+                positions[i3 + 1] = (Math.random() - 0.5) * 1500;
+                positions[i3 + 2] = (Math.random() - 0.5) * 1500;
             }
             
             starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
             const starMaterial = new THREE.PointsMaterial({
                 color: 0xffffff,
-                size: 0.7,
+                size: 0.5, // Smaller stars
                 transparent: true
             });
             
             const stars = new THREE.Points(starGeometry, starMaterial);
             scene.add(stars);
             
-            // Animation function
-            function animate() {
+            // Animation function with performance optimization
+            let lastTime = 0;
+            const frameRate = 1000 / 30; // Limit to 30fps
+            
+            function animate(time) {
                 requestAnimationFrame(animate);
                 
-                // Animate planets
-                planets.forEach(planet => {
-                    planet.rotation.x += planet.userData.rotationSpeed.x;
-                    planet.rotation.y += planet.userData.rotationSpeed.y;
-                    planet.rotation.z += planet.userData.rotationSpeed.z;
+                // Limit frame rate for better performance
+                if (!lastTime || time - lastTime > frameRate) {
+                    lastTime = time;
                     
-                    // Slowly move planets
-                    planet.position.x += Math.sin(Date.now() * 0.0001 * planet.userData.speed) * 0.05;
-                    planet.position.y += Math.cos(Date.now() * 0.0001 * planet.userData.speed) * 0.03;
-                });
-                
-                // Slowly rotate stars
-                stars.rotation.x += 0.0001;
-                stars.rotation.y += 0.0001;
-                
-                renderer.render(scene, camera);
+                    // Animate planets
+                    planets.forEach(planet => {
+                        planet.rotation.x += planet.userData.rotationSpeed.x;
+                        planet.rotation.y += planet.userData.rotationSpeed.y;
+                        planet.rotation.z += planet.userData.rotationSpeed.z;
+                        
+                        // Slowly move planets
+                        planet.position.x += Math.sin(time * 0.0001 * planet.userData.speed) * 0.03;
+                        planet.position.y += Math.cos(time * 0.0001 * planet.userData.speed) * 0.02;
+                    });
+                    
+                    // Slowly rotate stars
+                    stars.rotation.x += 0.00005;
+                    stars.rotation.y += 0.00005;
+                    
+                    renderer.render(scene, camera);
+                }
             }
             
             // Handle window resize
@@ -1369,6 +1273,7 @@
         const cancelBtn = document.getElementById('cancelRedirect');
         const socialLinks = document.querySelectorAll('.social-link');
         const musicToggle = document.getElementById('musicToggle');
+        const menuToggle = document.getElementById('menuToggle');
         const musicPlayer = document.getElementById('musicPlayer');
         const closePlayer = document.getElementById('closePlayer');
         const overlay = document.getElementById('overlay');
@@ -1381,12 +1286,6 @@
         const enableMusicBtn = document.getElementById('enableMusic');
         const disableMusicBtn = document.getElementById('disableMusic');
         const loader = document.getElementById('loader');
-        const videoContainer = document.getElementById('videoContainer');
-        const videoPlayer = document.getElementById('videoPlayer');
-        const videoPopout = document.getElementById('videoPopout');
-        const popoutVideo = document.getElementById('popoutVideo');
-        const closePopout = document.getElementById('closePopout');
-        const resizeHandle = document.getElementById('resizeHandle');
         const redirectUrlElement = document.getElementById('redirectUrl');
         const customCursor = document.querySelector('.custom-cursor');
 
@@ -1396,20 +1295,10 @@
         let isAboutVisible = false;
         let clickCount = 0;
         let isFireEffect = false;
-        let videoLoaded = false;
         let isMuted = false;
         let previousVolume = 25;
-        let videoEnabled = true;
-        let popoutClickCount = 0;
-        let lastPopoutClickTime = 0;
-        let isDragging = false;
-        let isResizing = false;
-        let startX, startY, startWidth, startHeight, startLeft, startTop;
         let mouseX = 0;
         let mouseY = 0;
-
-        // Video source
-        const videoSource = "https://cdn.lewd.host/ZfNOqZDB.mp4";
 
         // Optimized cursor movement with requestAnimationFrame
         function updateCursor() {
@@ -1421,33 +1310,13 @@
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
-            if (isDragging) {
-                const dx = e.clientX - startX;
-                const dy = e.clientY - startY;
-                videoPopout.style.left = (startLeft + dx) + 'px';
-                videoPopout.style.top = (startTop + dy) + 'px';
-            }
-            
-            if (isResizing) {
-                const dx = e.clientX - startX;
-                const newWidth = Math.max(150, startWidth + dx);
-                const newHeight = Math.max(90, startHeight + (dx * 0.6)); // Maintain aspect ratio
-                videoPopout.style.width = newWidth + 'px';
-                videoPopout.style.height = newHeight + 'px';
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            isResizing = false;
         });
 
         // Start the cursor animation
         updateCursor();
 
         // Add hover effect to interactive elements
-        const interactiveElements = document.querySelectorAll('button, a, input[type="range"], .music-toggle, .about-toggle');
+        const interactiveElements = document.querySelectorAll('button, a, input[type="range"], .music-toggle, .about-toggle, .menu-toggle');
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 customCursor.classList.add('hover');
@@ -1500,114 +1369,12 @@
                 musicPlayer.classList.add('visible');
                 overlay.classList.add('visible');
                 musicToggle.classList.add('active');
-                
-                // Load and show video when music player is opened
-                if (!videoLoaded && videoEnabled) {
-                    videoPlayer.src = videoSource;
-                    videoPlayer.load();
-                    videoLoaded = true;
-                }
-                
-                if (videoEnabled) {
-                    videoContainer.classList.add('visible');
-                    // Sync video with audio
-                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
-                    videoPlayer.play().catch(e => console.log('Video play failed:', e));
-                    
-                    // Hide popout if visible
-                    videoPopout.classList.remove('visible');
-                    popoutVideo.pause();
-                }
             } else {
-                // First fade out the video in the music player
-                videoContainer.style.opacity = '0';
-                
-                setTimeout(() => {
-                    musicPlayer.classList.remove('visible');
-                    overlay.classList.remove('visible');
-                    musicToggle.classList.remove('active');
-                    
-                    // Handle video popout when closing music player
-                    if (videoEnabled && videoLoaded) {
-                        const currentTime = videoPlayer.currentTime;
-                        videoContainer.classList.remove('visible');
-                        videoContainer.style.opacity = '1';
-                        videoPlayer.pause();
-                        
-                        // Show popout video with smooth transition
-                        if (!popoutVideo.src) {
-                            popoutVideo.src = videoSource;
-                        }
-                        popoutVideo.currentTime = currentTime;
-                        videoPopout.style.opacity = '0';
-                        videoPopout.style.transform = 'translate(0, 0) scale(0.8)';
-                        videoPopout.classList.add('visible');
-                        
-                        // Animate the popout appearance
-                        setTimeout(() => {
-                            videoPopout.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                            videoPopout.style.opacity = '1';
-                            videoPopout.style.transform = 'translate(0, 0) scale(1)';
-                            popoutVideo.play().catch(e => console.log('Popout video play failed:', e));
-                        }, 10);
-                    }
-                }, 300);
+                musicPlayer.classList.remove('visible');
+                overlay.classList.remove('visible');
+                musicToggle.classList.remove('active');
             }
         }
-
-        // Make video popout draggable
-        videoPopout.addEventListener('mousedown', function(e) {
-            if (e.target !== resizeHandle) {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                startLeft = videoPopout.offsetLeft;
-                startTop = videoPopout.offsetTop;
-            }
-        });
-
-        // Make video popout resizable
-        resizeHandle.addEventListener('mousedown', function(e) {
-            e.stopPropagation();
-            isResizing = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            startWidth = parseInt(document.defaultView.getComputedStyle(videoPopout).width, 10);
-            startHeight = parseInt(document.defaultView.getComputedStyle(videoPopout).height, 10);
-        });
-
-        // Close popout video
-        closePopout.addEventListener('click', function(e) {
-            e.stopPropagation();
-            videoPopout.classList.remove('visible');
-            popoutVideo.pause();
-        });
-
-        // Triple click to disable video
-        videoPopout.addEventListener('click', function(e) {
-            if (e.target === closePopout || e.target === resizeHandle) return;
-            
-            const now = Date.now();
-            if (now - lastPopoutClickTime > 300) {
-                popoutClickCount = 0;
-            }
-            
-            popoutClickCount++;
-            lastPopoutClickTime = now;
-            
-            if (popoutClickCount >= 3) {
-                videoEnabled = false;
-                videoPopout.classList.remove('visible');
-                popoutVideo.pause();
-                popoutClickCount = 0;
-                
-                // Show a quick visual feedback
-                videoPopout.style.opacity = '0.5';
-                setTimeout(() => {
-                    videoPopout.style.opacity = '1';
-                }, 300);
-            }
-        });
 
         musicToggle.addEventListener('click', toggleMusicPlayer);
         closePlayer.addEventListener('click', toggleMusicPlayer);
@@ -1615,6 +1382,13 @@
             if (e.target === overlay) {
                 toggleMusicPlayer();
             }
+        });
+
+        // Menu toggle functionality
+        menuToggle.addEventListener('click', function() {
+            redirectUrl = "https://xanax.baby";
+            redirectUrlElement.textContent = redirectUrl;
+            modal.classList.add('visible');
         });
 
         function toggleMute() {
@@ -1637,25 +1411,12 @@
         function togglePlayback() {
             if (isPlaying) {
                 audio.pause();
-                videoPlayer.pause();
-                popoutVideo.pause();
                 playIcon.classList.remove('fa-pause');
                 playIcon.classList.add('fa-play');
             } else {
                 audio.play().then(() => {
                     playIcon.classList.remove('fa-play');
                     playIcon.classList.add('fa-pause');
-                    
-                    // Sync video with audio
-                    if (videoEnabled) {
-                        if (isPlayerVisible) {
-                            videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
-                            videoPlayer.play().catch(e => console.log('Video play failed:', e));
-                        } else if (videoPopout.classList.contains('visible')) {
-                            popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
-                            popoutVideo.play().catch(e => console.log('Popout video play failed:', e));
-                        }
-                    }
                 }).catch(e => {
                     console.log('Audio play failed:', e);
                 });
@@ -1669,15 +1430,6 @@
             const progressPercent = (audio.currentTime / audio.duration) * 100;
             progress.style.width = `${progressPercent}%`;
             updateTimeDisplays();
-            
-            // Keep video in sync with audio
-            if (videoEnabled && isPlaying) {
-                if (isPlayerVisible) {
-                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
-                } else if (videoPopout.classList.contains('visible')) {
-                    popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
-                }
-            }
         });
 
         progressBar.addEventListener('click', function(e) {
@@ -1685,29 +1437,11 @@
             const clickX = e.offsetX;
             const duration = audio.duration;
             audio.currentTime = (clickX / progressWidth) * duration;
-            
-            // Sync video with new audio position
-            if (videoEnabled) {
-                if (isPlayerVisible) {
-                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
-                } else if (videoPopout.classList.contains('visible')) {
-                    popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
-                }
-            }
         });
 
         durationSlider.addEventListener('input', function() {
             const seekTime = (this.value / 100) * audio.duration;
             audio.currentTime = seekTime;
-            
-            // Sync video with new audio position
-            if (videoEnabled) {
-                if (isPlayerVisible) {
-                    videoPlayer.currentTime = audio.currentTime % videoPlayer.duration;
-                } else if (videoPopout.classList.contains('visible')) {
-                    popoutVideo.currentTime = audio.currentTime % popoutVideo.duration;
-                }
-            }
         });
 
         volumeSlider.addEventListener('input', function() {
@@ -1740,6 +1474,10 @@
         });
 
         aboutToggle.addEventListener('click', function() {
+            // Prevent rapid toggling
+            if (aboutToggle.classList.contains('transitioning')) return;
+            aboutToggle.classList.add('transitioning');
+            
             isAboutVisible = !isAboutVisible;
             
             if (isAboutVisible) {
@@ -1747,13 +1485,15 @@
                 setTimeout(() => {
                     aboutSection.classList.add('visible');
                     aboutToggle.classList.add('active');
-                }, 500);
+                    aboutToggle.classList.remove('transitioning');
+                }, 300);
             } else {
                 aboutSection.classList.remove('visible');
                 aboutToggle.classList.remove('active');
                 setTimeout(() => {
                     bioSection.classList.remove('hidden');
-                }, 500);
+                    aboutToggle.classList.remove('transitioning');
+                }, 300);
             }
         });
 
